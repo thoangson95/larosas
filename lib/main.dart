@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:larosas/modules/register/layout_register.dart';
 
 import 'constants.dart';
+import 'modules/login/layout_login.dart';
 
 void main() {
-  const ProviderScope(
+  runApp(const ProviderScope(
     child: MyApp(),
-  );
+  ));
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/register',
   routes: <RouteBase>[
     // LayoutLoading.goRoute(),
     // LayoutHome.goRoute(),
     // LayoutProductDeatil.goRoute(),
-    // LayoutLogin.goRoute(),
+    LayoutLogin.goRoute(),
+    LayoutRegister.goRoute(),
     // LayoutRegister.goRoute(),
     // LayoutForget.goRoute(),
     // LayoutForgetCode.goRoute()
@@ -37,7 +40,6 @@ class MyApp extends ConsumerWidget {
         primaryColor: colorMain,
       ),
       routerConfig: _router,
-      builder: (context, child) => child!,
     );
   }
 }
