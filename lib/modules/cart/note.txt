@@ -1,0 +1,34 @@
+pubspec.yaml
+    assets:
+        - assets/images/bag.svg
+        - assets/images/cart-success.png
+    dev_dependencies:
+        hive_generator: ^2.0.0
+        build_runner: ^2.3.3
+    dependencies:
+        hive_flutter: ^1.1.0
+        flutter_svg: ^2.0.2
+        intl: ^0.18.0
+
+main.dart
+    final GoRouter _router = GoRouter(
+    initialLocation: '/prodcut-detail',
+        routes: [
+            ...
+            LayoutCart.goRoute(),
+            LayoutProductDetail.goRoute(),
+            LayoutCartDetail.goRoute(),
+            LayoutCartSuccess.goRoute(),
+        ],
+    );
+    
+    Future<void> main() async {
+        WidgetsFlutterBinding.ensureInitialized();
+
+        await Hive.initFlutter();
+
+        Hive.registerAdapter(CartModelAdapter());
+        await Hive.openBox<CartModel>('CartBox');
+
+        runApp(const ProviderScope(child: MyApp()));
+    }
