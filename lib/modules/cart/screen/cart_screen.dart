@@ -26,31 +26,47 @@ class CartScreen extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          return ref.watch(cartFutureRecheckProvider).when(
-                data: (data) {
-                  final data = ref.watch(cartState).list;
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        children: data
-                            .map((e) => Container(
-                                  margin: const EdgeInsets.only(bottom: 30),
-                                  child: CartItemWidget(
-                                    item: e,
-                                  ),
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                  );
-                },
-                error: (error, stackTrace) => const Text(
-                  "Tải thất bại, vui lòng tải lại!",
-                  softWrap: true,
-                ),
-                loading: () => const Center(child: CircularProgressIndicator()),
-              );
+          final data = ref.watch(cartState).list;
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: data
+                    .map((e) => Container(
+                          margin: const EdgeInsets.only(bottom: 30),
+                          child: CartItemWidget(
+                            item: e,
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+          );
+          // return ref.watch(cartFutureRecheckProvider).when(
+          //       data: (data) {
+          //         final data = ref.watch(cartState).list;
+          //         return SingleChildScrollView(
+          //           child: Padding(
+          //             padding: const EdgeInsets.symmetric(horizontal: 20),
+          //             child: Column(
+          //               children: data
+          //                   .map((e) => Container(
+          //                         margin: const EdgeInsets.only(bottom: 30),
+          //                         child: CartItemWidget(
+          //                           item: e,
+          //                         ),
+          //                       ))
+          //                   .toList(),
+          //             ),
+          //           ),
+          //         );
+          //       },
+          //       error: (error, stackTrace) => const Text(
+          //         "Tải thất bại, vui lòng tải lại!",
+          //         softWrap: true,
+          //       ),
+          //       loading: () => const Center(child: CircularProgressIndicator()),
+          //     );
         },
       ),
       bottomNavigationBar: Padding(
