@@ -38,11 +38,11 @@ class CartModel extends HiveObject {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['qty'] = qty;
-    data['selected'] = selected;
-    data['name'] = name;
-    data['price'] = price;
+    // data['selected'] = selected;
+    // data['name'] = name;
+    // data['price'] = price;
     data['productId'] = productId;
-    data['photo'] = photo;
+    // data['photo'] = photo;
     return data;
   }
 }

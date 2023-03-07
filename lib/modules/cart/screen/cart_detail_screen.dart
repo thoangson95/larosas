@@ -262,6 +262,22 @@ class CartDetailScreen extends ConsumerWidget {
                 onPressed: () {
                   if (cartNotEmpty) {
                     context.push("/cart-success");
+                    // alert(context, const Text("Thông báo"), const Text("Đang tải"), []);
+                    // String param = jsonEncode(listProduct);
+                    // ref.read(cartControllerProvider).saveCart(param).then((value) {
+                    //   if (value) {
+                    //     context.pop();
+                    //     context.push("/cart-success");
+                    //   } else {
+                    //     alert(context, const Text("Cảnh báo"), const Text("Đặt hàng thất bại, vui lòng thử lại sau"), [
+                    //       TextButton(
+                    //           onPressed: () {
+                    //             context.pop();
+                    //           },
+                    //           child: const Text("OK"))
+                    //     ]);
+                    //   }
+                    // });
                   } else {
                     alert(context, const Text("Cảnh báo"), const Text("Chưa có sản phẩn nào được chọn"), [
                       TextButton(

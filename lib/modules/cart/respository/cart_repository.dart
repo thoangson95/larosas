@@ -23,4 +23,22 @@ class CartRepository {
       rethrow;
     }
   }
+
+  Future<bool> saveCartAPI(String param) async {
+    try {
+      final res = await dio.post("http://demo80.ninavietnam.com.vn/test_app_api/api/product_api.php",
+          data: {
+            'type': "saveCart",
+            'listProduct': param,
+          },
+          options: Options(headers: {
+            HttpHeaders.acceptHeader: "json/application/json",
+            HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded"
+          }));
+      // print(res.data);
+      return res.data;
+    } on DioError {
+      rethrow;
+    }
+  }
 }

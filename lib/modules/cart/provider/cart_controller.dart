@@ -19,6 +19,15 @@ class CartController {
       rethrow;
     }
   }
+
+  Future<bool> saveCart(String param) async {
+    try {
+      final res = await repo.saveCartAPI(param);
+      return res;
+    } on DioError {
+      rethrow;
+    }
+  }
 }
 
 final cartDio = Provider((ref) => Dio());
