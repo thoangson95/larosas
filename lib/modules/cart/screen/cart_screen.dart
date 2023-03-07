@@ -25,6 +25,7 @@ class CartScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Consumer(builder: (context, ref, child) {
+        ref.read(cartState).reCheckCart();
         final data = ref.watch(cartState).list;
         return SingleChildScrollView(
           child: Padding(

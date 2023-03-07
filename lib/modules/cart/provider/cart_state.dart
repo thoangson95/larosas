@@ -1,14 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
+import 'package:larosas/modules/cart/provider/cart_controller.dart';
 
 import '../model/cart_model.dart';
 
 class CartState extends ChangeNotifier {
+  CartState({required this.ref});
+
+  final Ref ref;
   List<CartModel> list = Hive.box<CartModel>('CartBox').values.toList();
   var box = Hive.box<CartModel>('CartBox');
   double total = 0;
   int maxQty = 0;
   bool isSelectAll = false;
+
+  Future<void> reCheckCart() async {
+    final listID = [];
+    for (var e in list) {
+      listID.add(e.productId);
+    }
+    final result = await ref.read(cartControllerProvider).reloadCart(listID.toString());
+    for (int i = 0; i < result.length; i++) {
+      var temp = box.values.firstWhere(
+        (element) => element.productId == result[i].productId,
+        orElse: () => CartModel(),
+      );
+      result[i].qty = temp.qty;
+      result[i].selected = temp.selected;
+    }
+    await box.clear();
+    await box.addAll(result);
+    reload();
+    caculateTotalAndMaxQty();
+    notifyListeners();
+  }
 
   void addToCart({required CartModel item, required int qty}) {
     int idx = list.indexWhere((e) => e.productId == item.productId);
