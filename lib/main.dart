@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'constants.dart';
+import 'modules/order/layout_order.dart';
+import 'modules/waiting/layout_order.dart';
+import 'modules/waiting/screen/waiting_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +18,8 @@ void main() async {
 final GoRouter _router = GoRouter(
   initialLocation: '/',
   routes: <RouteBase>[
+    LayoutOrder.goRoute(),
+    LayoutWaiting.goRoute(),
     // LayoutLoading.goRoute(),
     // LayoutHome.goRoute(),
     // LayoutProductDeatil.goRoute(),
@@ -39,7 +44,7 @@ class MyApp extends ConsumerWidget {
         primaryColor: colorMain,
       ),
       routerConfig: _router,
-      builder: (context, child) => child!,
+      builder: (context, child) => WaitingScreen(),
     );
   }
 }
