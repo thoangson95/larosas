@@ -24,25 +24,35 @@ class CartScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Consumer(builder: (context, ref, child) {
-        ref.read(cartState).reCheckCart();
-        final data = ref.watch(cartState).list;
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: data
-                  .map((e) => Container(
-                        margin: const EdgeInsets.only(bottom: 30),
-                        child: CartItemWidget(
-                          item: e,
-                        ),
-                      ))
-                  .toList(),
-            ),
-          ),
-        );
-      }),
+      body: Consumer(
+        builder: (context, ref, child) {
+          return ref.watch(cartFutureRecheckProvider).when(
+                data: (data) {
+                  final data = ref.watch(cartState).list;
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: data
+                            .map((e) => Container(
+                                  margin: const EdgeInsets.only(bottom: 30),
+                                  child: CartItemWidget(
+                                    item: e,
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  );
+                },
+                error: (error, stackTrace) => const Text(
+                  "Tải thất bại, vui lòng tải lại!",
+                  softWrap: true,
+                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+              );
+        },
+      ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 36, top: 10),
         child: Row(
