@@ -4,10 +4,12 @@ import 'package:go_router/go_router.dart';
 
 import 'constants.dart';
 
-void main() {
-  const ProviderScope(
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(const ProviderScope(
     child: MyApp(),
-  );
+  ));
 }
 
 final GoRouter _router = GoRouter(
