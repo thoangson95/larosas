@@ -1,20 +1,20 @@
 class UserModel {
-  int? id;
-  int? idSocial;
+  String? id;
+  String? idSocial;
   String? username;
   String? password;
   String? confirmCode;
   String? avatar;
   String? fullname;
-  int? phone;
+  String? phone;
   String? email;
   String? address;
-  int? gender;
+  String? gender;
   String? loginSession;
   String? lastlogin;
   String? status;
-  int? birthday;
-  int? numb;
+  String? birthday;
+  String? numb;
 
   UserModel(Future<UserModel> Function(dynamic ref) param0, 
       {this.id,

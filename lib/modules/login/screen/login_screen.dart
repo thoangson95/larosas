@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../provider/login_controller.dart';
 import '../provider/login_state.dart';
@@ -26,7 +27,9 @@ class LoginScreen extends StatelessWidget {
           elevation: 0,
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                context.go('/register');
+              },
               style: ButtonStyle(
                 overlayColor: MaterialStateProperty.resolveWith(
                   (states) {
@@ -59,139 +62,200 @@ class LoginScreen extends StatelessWidget {
                       "Đăng Nhập",
                       style: TextStyle(fontSize: 30),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 40),
-                      padding: const EdgeInsets.only(bottom: 8, top: 8),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 1,
-                            color: Color(0xFFD9D9D9),
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                right: BorderSide(
-                                  width: 1,
-                                  color: Color.fromRGBO(217, 217, 217, 1),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        return Stack(
+                          children: [
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 40, bottom: 20),
+                              padding: const EdgeInsets.only(bottom: 8, top: 8),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 1,
+                                    color: Color(0xFFD9D9D9),
+                                  ),
                                 ),
                               ),
-                            ),
-                            padding: const EdgeInsets.only(right: 10, left: 10),
-                            margin: const EdgeInsets.only(right: 10),
-                            child: const Icon(Icons.email_outlined),
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: _email,
-                              cursorColor: Colors.black,
-                              decoration: const InputDecoration.collapsed(
-                                hintText: "Email của bạn",
-                                hintStyle: TextStyle(fontSize: 13),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          width: 1,
+                                          color:
+                                              Color.fromRGBO(217, 217, 217, 1),
+                                        ),
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.only(
+                                        right: 10, left: 10),
+                                    margin: const EdgeInsets.only(right: 10),
+                                    child: const Icon(Icons.email_outlined),
+                                  ),
+                                  Expanded(
+                                    child: TextField(
+                                      onChanged: (value) {
+                                        if (value.isNotEmpty) {
+                                          ref
+                                              .read(isEmptyEmail.notifier)
+                                              .state = false;
+                                        } else {
+                                          ref
+                                              .read(isEmptyEmail.notifier)
+                                              .state = true;
+                                        }
+                                      },
+                                      controller: _email,
+                                      cursorColor: Colors.black,
+                                      decoration:
+                                          const InputDecoration.collapsed(
+                                        hintText: "Email của bạn",
+                                        hintStyle: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                            if (ref.watch(isEmptyEmail))
+                              Positioned(
+                                bottom: 0,
+                                child: Text(
+                                  'Chưa nhập Email kìa bạn',
+                                  style:
+                                      TextStyle(color: maincolor, fontSize: 12),
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final visible = ref.watch(isShowPasswordState);
+                        return Stack(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(top: 0, bottom: 20),
+                              padding: const EdgeInsets.only(bottom: 8, top: 8),
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    width: 1,
+                                    color: Color(0xFFD9D9D9),
+                                  ),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                        right: BorderSide(
+                                          width: 1,
+                                          color: Color(0xFFD9D9D9),
+                                        ),
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.only(
+                                        right: 10, left: 10),
+                                    margin: const EdgeInsets.only(right: 10),
+                                    child: const Icon(Icons.lock_open_outlined),
+                                  ),
+                                  Expanded(
+                                    child: TextField(
+                                      onTap: () {
+                                        _password.clear();
+                                      },
+                                      onChanged: (value) {
+                                        if (value.isNotEmpty) {
+                                          ref
+                                              .read(isEmptyPassword.notifier)
+                                              .state = false;
+                                        } else {
+                                          ref
+                                              .read(isEmptyPassword.notifier)
+                                              .state = true;
+                                        }
+                                      },
+                                      controller: _password,
+                                      obscureText: !visible,
+                                      cursorColor: Colors.black,
+                                      decoration: const InputDecoration(
+                                        isCollapsed: true,
+                                        border: InputBorder.none,
+                                        hintText: "Mật khẩu",
+                                        hintStyle: TextStyle(fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    decoration: const BoxDecoration(),
+                                    padding: EdgeInsets.zero,
+                                    margin: EdgeInsets.zero,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        ref
+                                                .read(isShowPasswordState.notifier)
+                                                .state =
+                                            !ref.watch(isShowPasswordState);
+                                      },
+                                      style: ButtonStyle(
+                                        foregroundColor:
+                                            MaterialStateProperty.resolveWith(
+                                                (states) {
+                                          return Colors.black;
+                                        }),
+                                        padding:
+                                            MaterialStateProperty.resolveWith(
+                                          (states) {
+                                            return const EdgeInsets.all(0);
+                                          },
+                                        ),
+                                        minimumSize:
+                                            MaterialStateProperty.resolveWith(
+                                                (states) {
+                                          return Size.zero;
+                                        }),
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        overlayColor:
+                                            MaterialStateProperty.resolveWith(
+                                          (states) {
+                                            return Colors.transparent;
+                                          },
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        ref.watch(isShowPasswordState)
+                                            ? Icons.visibility_off_outlined
+                                            : Icons.visibility_outlined,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            if (ref.watch(isEmptyPassword))
+                              Positioned(
+                                bottom: 0,
+                                child: Text(
+                                  "Chưa nhập password kìa bạn",
+                                  style: TextStyle(
+                                    color: maincolor,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      },
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 20),
-                      padding: const EdgeInsets.only(bottom: 8, top: 8),
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 1,
-                            color: Color(0xFFD9D9D9),
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                right: BorderSide(
-                                  width: 1,
-                                  color: Color(0xFFD9D9D9),
-                                ),
-                              ),
-                            ),
-                            padding: const EdgeInsets.only(right: 10, left: 10),
-                            margin: const EdgeInsets.only(right: 10),
-                            child: const Icon(Icons.lock_open_outlined),
-                          ),
-                          Consumer(
-                            builder: (context, ref, child) {
-                              final visible = ref.watch(isShowPasswordState);
-                              return Expanded(
-                                child: TextField(
-                                  controller: _password,
-                                  obscureText: !visible,
-                                  cursorColor: Colors.black,
-                                  decoration: const InputDecoration.collapsed(
-                                    hintText: "Mật khẩu",
-                                    hintStyle: TextStyle(fontSize: 13),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          Consumer(
-                            builder: (context, ref, child) {
-                              return Container(
-                                decoration: const BoxDecoration(),
-                                padding: EdgeInsets.zero,
-                                margin: EdgeInsets.zero,
-                                child: TextButton(
-                                  onPressed: () {
-                                    ref
-                                            .read(isShowPasswordState.notifier)
-                                            .state =
-                                        !ref.watch(isShowPasswordState);
-                                  },
-                                  style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.resolveWith(
-                                            (states) {
-                                      return Colors.black;
-                                    }),
-                                    padding: MaterialStateProperty.resolveWith(
-                                      (states) {
-                                        return const EdgeInsets.all(0);
-                                      },
-                                    ),
-                                    minimumSize:
-                                        MaterialStateProperty.resolveWith(
-                                            (states) {
-                                      return Size.zero;
-                                    }),
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    overlayColor:
-                                        MaterialStateProperty.resolveWith(
-                                      (states) {
-                                        return Colors.transparent;
-                                      },
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    ref.watch(isShowPasswordState)
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined,
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(top: 20, bottom: 20),
+                      padding: const EdgeInsets.only(bottom: 20),
                       child: Center(
                         child: TextButton(
                           onPressed: () {},
@@ -240,57 +304,73 @@ class LoginScreen extends StatelessWidget {
                                       foregroundColor: Colors.white,
                                       backgroundColor: maincolor),
                                   onPressed: () {
-                                    if (isLogin == false) {
-                                      listUser.when(
-                                        data: (data) {
-                                          ref.read(loginState.notifier).state =
-                                              checkLogin(data, _email.text,
-                                                  _password.text, ref);
-                                          ref.read(loading.notifier).state =
-                                              true;
-                                          if (ref.watch(loginState)) {
-                                            Future.delayed(
-                                              const Duration(seconds: 5),
-                                              () {
-                                                ref
-                                                    .read(loading.notifier)
-                                                    .state = false;
-                                                ref
+                                    FocusScope.of(context).unfocus();
+                                    if (_email.text == '') {
+                                      ref.read(isEmptyEmail.notifier).state =
+                                          true;
+                                    }
+                                    if (_password.text == '') {
+                                      ref.read(isEmptyPassword.notifier).state =
+                                          true;
+                                    }
+                                    if (_email.text.isNotEmpty &&
+                                        _password.text.isNotEmpty) {
+                                      if (isLogin == false) {
+                                        listUser.when(
+                                          data: (data) {
+                                            ref
                                                     .read(loginState.notifier)
-                                                    .state = false;
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                    content: Text(
-                                                        'Đăng nhập thành công'),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          } else {
-                                            Future.delayed(
-                                              const Duration(seconds: 5),
-                                              () {
-                                                ref
-                                                    .read(loading.notifier)
-                                                    .state = false;
-                                                ref
-                                                    .read(loginState.notifier)
-                                                    .state = false;
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  const SnackBar(
-                                                    content: Text(
-                                                        'Đăng nhập thất bại'),
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          }
-                                        },
-                                        error: (error, stackTrace) {},
-                                        loading: () {},
-                                      );
+                                                    .state =
+                                                checkLogin(data, _email.text,
+                                                    _password.text, ref);
+                                            ref.read(loading.notifier).state =
+                                                true;
+                                            if (ref.watch(loginState)) {
+                                              Future.delayed(
+                                                const Duration(seconds: 5),
+                                                () {
+                                                  ref
+                                                      .read(loading.notifier)
+                                                      .state = false;
+                                                  ref
+                                                      .read(loginState.notifier)
+                                                      .state = false;
+                                                  _email.clear();
+                                                  _password.clear();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          'Đăng nhập thành công'),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            } else {
+                                              Future.delayed(
+                                                const Duration(seconds: 5),
+                                                () {
+                                                  ref
+                                                      .read(loading.notifier)
+                                                      .state = false;
+                                                  ref
+                                                      .read(loginState.notifier)
+                                                      .state = false;
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          'Đăng nhập thất bại'),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            }
+                                          },
+                                          error: (error, stackTrace) {},
+                                          loading: () {},
+                                        );
+                                      }
                                     }
                                   },
                                   child: isload

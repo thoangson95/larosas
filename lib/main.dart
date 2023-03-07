@@ -13,7 +13,7 @@ void main() {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/register',
+  initialLocation: '/login',
   routes: <RouteBase>[
     // LayoutLoading.goRoute(),
     // LayoutHome.goRoute(),

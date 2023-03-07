@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../provider/register_controller.dart';
 import '../provider/register_state.dart';
@@ -32,7 +33,7 @@ class RegisterScreen extends StatelessWidget {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onPressed: () {
-              Navigator.pop(context);
+              context.go('/login');
             },
             icon: const Icon(
               Icons.arrow_back,
@@ -43,7 +44,9 @@ class RegisterScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(right: 12),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.go('/login');
+                },
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.resolveWith(
                     (states) {
@@ -62,158 +65,335 @@ class RegisterScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, bottom: 28),
-            child: Text(
-              "Đăng ký",
-              style: TextStyle(fontSize: 30),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 28),
+              child: Text(
+                "Đăng ký",
+                style: TextStyle(fontSize: 30),
+              ),
             ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Column(
-                  children: [
-                    tf(Icons.person_outline, _username, "Username", false,
-                        false),
-                    tf(Icons.call_outlined, _number, "Số điện thoại", true,
-                        false),
-                    tf(Icons.email_outlined, _email, "Email của bạn", false,
-                        false),
-                    tf(Icons.lock_open, _password, "Mật khẩu", false, true),
-                    Consumer(
-                      builder: (context, ref, child) {
-                        bool accepted = ref.watch(acceptPolicyState);
-                        return Container(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: TextButton(
-                            style: ButtonStyle(
-                                minimumSize: MaterialStateProperty.resolveWith(
-                                  (states) {
-                                    return Size.zero;
-                                  },
-                                ),
-                                padding: MaterialStateProperty.resolveWith(
-                                  (states) {
-                                    return const EdgeInsets.all(0);
-                                  },
-                                ),
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                overlayColor:
-                                    MaterialStateProperty.resolveWith((states) {
-                                  return Colors.transparent;
-                                })),
-                            onPressed: () {
-                              ref.read(acceptPolicyState.notifier).state =
-                                  !accepted;
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  clipBehavior: Clip.hardEdge,
-                                  width: 16,
-                                  height: 16,
-                                  margin: const EdgeInsets.only(right: 14),
-                                  padding: const EdgeInsets.all(1),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 1,
-                                        color: maincolor,
-                                      ),
-                                      borderRadius: BorderRadius.circular(150)),
-                                  child: Icon(
-                                    Icons.circle,
-                                    size: 12,
-                                    color: accepted
-                                        ? maincolor
-                                        : Colors.transparent,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      int accepted = ref.watch(acceptPolicyState);
+                      return Column(
+                        children: [
+                          Stack(
+                            children: [
+                              tf(
+                                  Icons.person_outline,
+                                  _username,
+                                  "Username",
+                                  false,
+                                  false,
+                                  isEmptyUsername,
+                                  invalidUsername),
+                              if (ref.watch(isEmptyUsername)) ...{
+                                Positioned(
+                                  bottom: 0,
+                                  child: Text(
+                                    "Chưa nhập username kìa bạn.",
+                                    style: TextStyle(
+                                        color: maincolor, fontSize: 13),
                                   ),
                                 ),
-                                Text(
-                                  "Tôi đồng ý với điều khoản dịch vụ của La Rosa’s",
-                                  style:
-                                      TextStyle(color: maincolor, fontSize: 13),
+                              } else if (ref.watch(invalidUsername)) ...{
+                                Positioned(
+                                  bottom: 0,
+                                  child: Text(
+                                    "Username đã tồn tại.",
+                                    style: TextStyle(
+                                        color: maincolor, fontSize: 13),
+                                  ),
+                                ),
+                              }
+                            ],
+                          ),
+                          Stack(
+                            children: [
+                              tf(Icons.call_outlined, _number, "Số điện thoại",
+                                  true, false, isEmptyPhone, invalidNumber),
+                              if (ref.watch(isEmptyPhone))
+                                Positioned(
+                                  bottom: 0,
+                                  child: Text(
+                                    "Chưa nhập số điện thoại kìa bạn.",
+                                    style: TextStyle(
+                                        color: maincolor, fontSize: 13),
+                                  ),
                                 )
-                              ],
+                              else if (ref.watch(invalidNumber))
+                                Positioned(
+                                  bottom: 0,
+                                  child: Text(
+                                    "Số điện thoại đã tồn tại.",
+                                    style: TextStyle(
+                                        color: maincolor, fontSize: 13),
+                                  ),
+                                )
+                            ],
+                          ),
+                          Stack(
+                            children: [
+                              tf(Icons.email_outlined, _email, "Email của bạn",
+                                  false, false, isEmptyEmail, invalidEmail),
+                              if (ref.watch(isEmptyEmail))
+                                Positioned(
+                                  bottom: 0,
+                                  child: Text(
+                                    "Chưa nhập email kìa bạn.",
+                                    style: TextStyle(
+                                        color: maincolor, fontSize: 13),
+                                  ),
+                                )
+                              else if (ref.watch(invalidEmail))
+                                Positioned(
+                                  bottom: 0,
+                                  child: Text(
+                                    "Email đã tồn tại.",
+                                    style: TextStyle(
+                                        color: maincolor, fontSize: 13),
+                                  ),
+                                )
+                            ],
+                          ),
+                          Stack(
+                            children: [
+                              tf(Icons.lock_open, _password, "Mật khẩu", false,
+                                  true, isEmptyPassword, isEmptyPassword),
+                              if (ref.watch(isEmptyPassword))
+                                Positioned(
+                                  bottom: 0,
+                                  child: Text(
+                                    "Chưa nhập mật khẩu kìa bạn.",
+                                    style: TextStyle(
+                                        color: maincolor, fontSize: 13),
+                                  ),
+                                )
+                            ],
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(top: 10, bottom: 10),
+                            child: TextButton(
+                              style: ButtonStyle(
+                                  minimumSize:
+                                      MaterialStateProperty.resolveWith(
+                                    (states) {
+                                      return Size.zero;
+                                    },
+                                  ),
+                                  padding: MaterialStateProperty.resolveWith(
+                                    (states) {
+                                      return const EdgeInsets.all(0);
+                                    },
+                                  ),
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  overlayColor:
+                                      MaterialStateProperty.resolveWith(
+                                          (states) {
+                                    return Colors.transparent;
+                                  })),
+                              onPressed: () {
+                                if (ref.watch(acceptPolicyState) == 0 ||
+                                    ref.watch(acceptPolicyState) == 2) {
+                                  ref.read(acceptPolicyState.notifier).state =
+                                      1;
+                                } else {
+                                  ref.read(acceptPolicyState.notifier).state =
+                                      0;
+                                }
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    clipBehavior: Clip.hardEdge,
+                                    width: 16,
+                                    height: 16,
+                                    margin: const EdgeInsets.only(right: 14),
+                                    padding: const EdgeInsets.all(1),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 1,
+                                          color: maincolor,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(150)),
+                                    child: Icon(
+                                      Icons.circle,
+                                      size: 12,
+                                      color: accepted == 1
+                                          ? maincolor
+                                          : Colors.transparent,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Tôi đồng ý với điều khoản dịch vụ của La Rosa’s",
+                                    style: TextStyle(
+                                        color: maincolor, fontSize: 13),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Consumer(
-                          builder: (context, ref, child) {
-                            final str = ref.watch(statemnet);
-                            final issuccess = ref.watch(isCreateSuccess);
-                            return Text(str);
-                          },
-                        ),
-                        Consumer(
-                          builder: (context, ref, child) {
-                            return Expanded(
-                              child: SizedBox(
-                                height: 46,
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      backgroundColor: maincolor),
-                                  onPressed: () {
-                                    createUser(
-                                      _username.text,
-                                      int.parse(_number.text),
-                                      _email.text,
-                                      _password.text,
-                                      ref,
-                                    ).then((value) => ref
-                                        .read(statemnet.notifier)
-                                        .state = value);
-                                  },
-                                  child: const Text(
-                                    "Đăng ký",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                          if (ref.watch(acceptPolicyState) == 2)
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                "Bạn chưa chấp nhận điều khoản.",
+                                style:
+                                    TextStyle(color: maincolor, fontSize: 13),
+                              ),
+                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 46,
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                        foregroundColor: Colors.white,
+                                        backgroundColor: maincolor),
+                                    onPressed: () {
+                                      ref.read(invalidUsername.notifier).state =
+                                          ref
+                                                  .read(invalidNumber.notifier)
+                                                  .state =
+                                              ref
+                                                  .read(invalidEmail.notifier)
+                                                  .state = false;
+                                      if (_username.text.isEmpty) {
+                                        ref
+                                            .read(isEmptyUsername.notifier)
+                                            .state = true;
+                                      }
+                                      if (_number.text.isEmpty) {
+                                        ref.read(isEmptyPhone.notifier).state =
+                                            true;
+                                      }
+                                      if (_email.text.isEmpty) {
+                                        ref.read(isEmptyEmail.notifier).state =
+                                            true;
+                                      }
+                                      if (_password.text.isEmpty) {
+                                        ref
+                                            .read(isEmptyPassword.notifier)
+                                            .state = true;
+                                      }
+                                      if (accepted == 0) {
+                                        ref
+                                            .read(acceptPolicyState.notifier)
+                                            .state = 2;
+                                      }
+                                      if (_username.text.isNotEmpty &&
+                                          _number.text.isNotEmpty &&
+                                          _email.text.isNotEmpty &&
+                                          _password.text.isNotEmpty &&
+                                          ref.read(acceptPolicyState) == 1) {
+                                        ref
+                                            .read(isEmptyUsername.notifier)
+                                            .state = ref
+                                                .read(isEmptyPhone.notifier)
+                                                .state =
+                                            ref
+                                                    .read(isEmptyEmail.notifier)
+                                                    .state =
+                                                ref
+                                                    .read(isEmptyPassword
+                                                        .notifier)
+                                                    .state = false;
+                                        FocusScope.of(context).unfocus();
+                                        ref.read(isLoading.notifier).state =
+                                            true;
+                                        Future.delayed(
+                                          const Duration(seconds: 5),
+                                          () {
+                                            ref.read(isLoading.notifier).state =
+                                                false;
+                                            createUser(
+                                              _username.text,
+                                              _number.text,
+                                              _email.text,
+                                              _password.text,
+                                              ref,
+                                            ).then((value) => ref
+                                                .read(statement.notifier)
+                                                .state = value);
+                                            if (ref.watch(statement) == 1) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Đăng ký thành công'),
+                                                ),
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content:
+                                                      Text('Đăng ký thất bại'),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                        );
+                                      }
+                                    },
+                                    child: ref.watch(isLoading)
+                                        ? const CircularProgressIndicator(
+                                            color: Colors.white,
+                                          )
+                                        : const Text(
+                                            "Đăng ký",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                   ),
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 10)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: TextButton.icon(
-                            style: TextButton.styleFrom(
-                                foregroundColor: const Color(0xFF1877F2),
-                                backgroundColor: Colors.white,
-                                side: const BorderSide(
-                                  width: 1,
-                                  color: Color(0xFF1877F2),
-                                ),
-                                alignment: Alignment.center),
-                            onPressed: () {},
-                            icon: const Icon(Icons.facebook),
-                            label: const Text(
-                              "Tiếp tục với Facebook",
-                            ),
+                            ],
                           ),
-                        ),
-                      ],
-                    )
-                  ],
+                          const Padding(padding: EdgeInsets.only(top: 10)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: TextButton.icon(
+                                  style: TextButton.styleFrom(
+                                      foregroundColor: const Color(0xFF1877F2),
+                                      backgroundColor: Colors.white,
+                                      side: const BorderSide(
+                                        width: 1,
+                                        color: Color(0xFF1877F2),
+                                      ),
+                                      alignment: Alignment.center),
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.facebook),
+                                  label: const Text(
+                                    "Tiếp tục với Facebook",
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }

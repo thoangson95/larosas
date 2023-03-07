@@ -10,13 +10,17 @@ Widget tf(
   String lable,
   bool isnumber,
   bool ispassword,
+  StateProvider state,
+  StateProvider state2 
 ) {
   return Consumer(
     builder: (context, ref, child) {
       bool visible = ref.watch(showPasswordState);
       return Container(
-        margin: const EdgeInsets.only(top: 8, bottom: 8),
-        padding: const EdgeInsets.only(bottom: 10, top: 10),
+        margin: const EdgeInsets.only(top: 8, bottom: 18),
+        padding: const EdgeInsets.only(
+          bottom: 10,
+        ),
         decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -43,10 +47,20 @@ Widget tf(
             if (ispassword) ...{
               Expanded(
                 child: TextField(
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      ref.read(state.notifier).state = false;
+                      ref.read(state2.notifier).state = false;
+                    } else {
+                      ref.read(state.notifier).state = true;
+                    }
+                  },
                   controller: controller,
                   cursorColor: Colors.black,
                   obscureText: !visible,
-                  decoration: InputDecoration.collapsed(
+                  decoration: InputDecoration(
+                    isCollapsed: true,
+                    border: InputBorder.none,
                     hintText: lable,
                     hintStyle: const TextStyle(fontSize: 13),
                   ),
@@ -55,6 +69,14 @@ Widget tf(
             } else if (isnumber) ...{
               Expanded(
                 child: TextField(
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      ref.read(state.notifier).state = false;
+                      ref.read(state2.notifier).state = false;
+                    } else {
+                      ref.read(state.notifier).state = true;
+                    }
+                  },
                   controller: controller,
                   cursorColor: Colors.black,
                   keyboardType: TextInputType.number,
@@ -70,6 +92,14 @@ Widget tf(
             } else
               Expanded(
                 child: TextField(
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      ref.read(state.notifier).state = false;
+                      ref.read(state2.notifier).state = false;
+                    } else {
+                      ref.read(state.notifier).state = true;
+                    }
+                  },
                   controller: controller,
                   cursorColor: Colors.black,
                   decoration: InputDecoration.collapsed(

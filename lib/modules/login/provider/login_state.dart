@@ -9,3 +9,7 @@ final loginState = StateProvider<bool>((ref) => false);
 final loading = StateProvider<bool>((ref) => false);
 
 final isShowPasswordState = StateProvider((ref) => false);
+
+final isEmptyEmail = StateProvider((ref) => false);
+
+final isEmptyPassword = StateProvider((ref) => false);

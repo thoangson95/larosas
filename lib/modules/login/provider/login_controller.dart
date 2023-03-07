@@ -21,8 +21,7 @@ import 'login_state.dart';
 
 Future<List<UserModel>> getUserList() async {
   final dio = Dio();
-  final response =
-      await dio.post("http://demo39.ninavietnam.com.vn/test1/user");
+  final response = await dio.post("http://10.0.2.2:80/test/user");
   if (response.statusCode == 200) {
     List jsonRaw = jsonDecode(response.data);
     List<UserModel> data = jsonRaw.map((e) => UserModel.fromJson(e)).toList();
@@ -32,9 +31,11 @@ Future<List<UserModel>> getUserList() async {
   }
 }
 
-final fListUserProvider = FutureProvider<List<UserModel>>((ref) async {
-  return getUserList();
-});
+final fListUserProvider = FutureProvider<List<UserModel>>(
+  (ref) async {
+    return getUserList();
+  },
+);
 
 bool checkLogin(
     List<UserModel> listUser, String email, String password, WidgetRef ref) {
