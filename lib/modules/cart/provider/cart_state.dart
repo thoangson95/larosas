@@ -143,9 +143,16 @@ class CartNotifier extends Notifier<CartState> {
       await state.box.addAll(result);
       reload();
       caculateTotalAndMaxQty();
-      print(1);
       state = state.copyWith();
     }
+  }
+
+  void clear() {
+    state.box.values.where((e) => e.selected == true).forEach((e) {
+      e.delete();
+    });
+    reload();
+    state = state.copyWith();
   }
 
   void addToCart({required CartModel item, required int qty}) {

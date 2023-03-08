@@ -268,6 +268,7 @@ class CartDetailScreen extends ConsumerWidget {
                     String param = jsonEncode(listProduct);
                     ref.read(cartControllerProvider).saveCart(param).then((value) {
                       if (value) {
+                        ref.read(cartNotifierProvider.notifier).clear();
                         context.pop();
                         context.push("/cart-success");
                       } else {
