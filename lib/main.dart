@@ -9,6 +9,9 @@ import 'modules/cart/layout_cart_detail.dart';
 import 'modules/cart/layout_cart_success.dart';
 import 'modules/cart/model/cart_model.dart';
 import 'modules/product_detail/layout_product_detail.dart';
+import 'modules/order/layout_order.dart';
+import 'modules/waiting/layout_order.dart';
+import 'modules/waiting/screen/waiting_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +25,10 @@ Future<void> main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/prodcut-detail',
-  routes: [
+  initialLocation: '/',
+  routes: <RouteBase>[
+    LayoutOrder.goRoute(),
+    LayoutWaiting.goRoute(),
     // LayoutLoading.goRoute(),
     // LayoutHome.goRoute(),
     // LayoutProductDeatil.goRoute(),
@@ -56,7 +61,7 @@ class MyApp extends ConsumerWidget {
         scaffoldBackgroundColor: scaffoldBackground,
       ),
       routerConfig: _router,
-      builder: (context, child) => child!,
+      builder: (context, child) => WaitingScreen(),
     );
   }
 }
