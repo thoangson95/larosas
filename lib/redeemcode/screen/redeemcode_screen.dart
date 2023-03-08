@@ -104,7 +104,7 @@ class _RedemcodeScreenState extends State<RedemcodeScreen> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onPressed: () {
-              Navigator.pop(context);
+              context.go("/");
             },
             icon: const Icon(
               Icons.arrow_back,
