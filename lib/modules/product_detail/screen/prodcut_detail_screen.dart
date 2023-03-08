@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:larosas/modules/cart/provider/cart_controller.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:larosas/modules/cart/provider/cart_controller.dart';
 
 import '../../cart/model/cart_model.dart';
 import '../provider/product_detail_controller.dart';
@@ -199,7 +199,7 @@ class ProdcutDetailScreen extends ConsumerWidget {
                       ),
                       child: IconButton(
                         onPressed: () {
-                          ref.read(cartState.notifier).addToCart(item: CartModel(price: data.regularPrice, name: data.namevi, photo: data.photo, productId: data.id), qty: 1);
+                          ref.read(cartNotifierProvider.notifier).addToCart(item: CartModel(price: data.regularPrice, name: data.namevi, photo: data.photo, productId: data.id), qty: 1);
                           alert(context, const Text("Thêm thành công"), const Text("Đã thêm vào giỏ hàng"), [
                             TextButton(
                                 onPressed: () {
@@ -217,7 +217,7 @@ class ProdcutDetailScreen extends ConsumerWidget {
                       height: 46,
                       child: ElevatedButton(
                         onPressed: () {
-                          ref.read(cartState.notifier).addToCart(item: CartModel(price: data.regularPrice, name: data.namevi, photo: data.photo, productId: data.id), qty: 1);
+                          ref.read(cartNotifierProvider.notifier).addToCart(item: CartModel(price: data.regularPrice, name: data.namevi, photo: data.photo, productId: data.id), qty: 1);
                           context.push("/cart");
                         },
                         style: ElevatedButton.styleFrom(elevation: 0, backgroundColor: const Color(0xFFFF7465), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),

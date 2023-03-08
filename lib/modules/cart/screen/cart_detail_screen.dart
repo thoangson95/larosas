@@ -14,8 +14,8 @@ class CartDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final listProduct = ref.watch(cartState).list.where((element) => element.selected == true).toList();
-    final data = ref.watch(cartState);
+    final listProduct = ref.watch(cartNotifierProvider).list.where((element) => element.selected == true).toList();
+    final data = ref.watch(cartNotifierProvider);
     final cartNotEmpty = listProduct.isNotEmpty;
     return Scaffold(
       appBar: AppBar(

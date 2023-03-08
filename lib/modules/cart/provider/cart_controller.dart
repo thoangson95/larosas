@@ -32,10 +32,10 @@ class CartController {
 
 final cartDio = Provider((ref) => Dio());
 
-final cartState = ChangeNotifierProvider((ref) => CartState(ref: ref));
-
 final cartRepoProvider = Provider((ref) => CartRepository(dio: ref.watch(cartDio)));
 
 final cartControllerProvider = Provider((ref) => CartController(repo: ref.read(cartRepoProvider)));
 
-final cartFutureRecheckProvider = FutureProvider((ref) => ref.watch(cartState.notifier).reCheckCart());
+final cartFutureRecheckProvider = FutureProvider.autoDispose((ref) => ref.watch(cartNotifierProvider.notifier).reCheckCart());
+
+final cartNotifierProvider = NotifierProvider<CartNotifier, CartState>(() => CartNotifier());

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:larosas/modules/cart/provider/cart_controller.dart';
 
 import '../../model/cart_model.dart';
-import '../../provider/cart_controller.dart';
 
 class CartItemWidget extends ConsumerWidget {
   const CartItemWidget({Key? key, required this.item}) : super(key: key);
@@ -31,7 +31,7 @@ class CartItemWidget extends ConsumerWidget {
             }),
             value: isChecked,
             onChanged: (value) {
-              ref.read(cartState.notifier).selectItem(id: item.productId);
+              ref.read(cartNotifierProvider.notifier).selectItem(id: item.productId);
             },
           ),
         ),
@@ -83,7 +83,7 @@ class CartItemWidget extends ConsumerWidget {
                     Radius.circular(100),
                   ),
                   onTap: () {
-                    ref.read(cartState.notifier).removeFromCart(item: item, qty: 1);
+                    ref.read(cartNotifierProvider.notifier).removeFromCart(item: item, qty: 1);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -117,7 +117,7 @@ class CartItemWidget extends ConsumerWidget {
                   Radius.circular(100),
                 ),
                 onTap: () {
-                  ref.read(cartState.notifier).addToCart(item: item, qty: 1);
+                  ref.read(cartNotifierProvider.notifier).addToCart(item: item, qty: 1);
                 },
                 child: Container(
                   decoration: BoxDecoration(

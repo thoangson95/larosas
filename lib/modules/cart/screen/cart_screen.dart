@@ -26,47 +26,47 @@ class CartScreen extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final data = ref.watch(cartState).list;
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: data
-                    .map((e) => Container(
-                          margin: const EdgeInsets.only(bottom: 30),
-                          child: CartItemWidget(
-                            item: e,
-                          ),
-                        ))
-                    .toList(),
-              ),
-            ),
-          );
-          // return ref.watch(cartFutureRecheckProvider).when(
-          //       data: (data) {
-          //         final data = ref.watch(cartState).list;
-          //         return SingleChildScrollView(
-          //           child: Padding(
-          //             padding: const EdgeInsets.symmetric(horizontal: 20),
-          //             child: Column(
-          //               children: data
-          //                   .map((e) => Container(
-          //                         margin: const EdgeInsets.only(bottom: 30),
-          //                         child: CartItemWidget(
-          //                           item: e,
-          //                         ),
-          //                       ))
-          //                   .toList(),
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //       error: (error, stackTrace) => const Text(
-          //         "Tải thất bại, vui lòng tải lại!",
-          //         softWrap: true,
-          //       ),
-          //       loading: () => const Center(child: CircularProgressIndicator()),
-          //     );
+          // final data = ref.watch(cartNotifierProvider).list;
+          // return SingleChildScrollView(
+          //   child: Padding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20),
+          //     child: Column(
+          //       children: data
+          //           .map((e) => Container(
+          //                 margin: const EdgeInsets.only(bottom: 30),
+          //                 child: CartItemWidget(
+          //                   item: e,
+          //                 ),
+          //               ))
+          //           .toList(),
+          //     ),
+          //   ),
+          // );
+          return ref.watch(cartFutureRecheckProvider).when(
+                data: (data) {
+                  final item = ref.watch(cartNotifierProvider).list;
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: item
+                            .map((e) => Container(
+                                  margin: const EdgeInsets.only(bottom: 30),
+                                  child: CartItemWidget(
+                                    item: e,
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  );
+                },
+                error: (error, stackTrace) => Text(
+                  "$error",
+                  softWrap: true,
+                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+              );
         },
       ),
       bottomNavigationBar: Padding(
@@ -77,7 +77,7 @@ class CartScreen extends StatelessWidget {
           children: [
             Consumer(
               builder: (context, ref, child) {
-                final isCheckAll = ref.watch(cartState).isSelectAll;
+                final isCheckAll = ref.watch(cartNotifierProvider).isSelectAll;
                 return Row(
                   children: [
                     Container(
@@ -100,7 +100,7 @@ class CartScreen extends StatelessWidget {
                         }),
                         value: isCheckAll,
                         onChanged: (value) {
-                          ref.read(cartState.notifier).selecteAll();
+                          ref.read(cartNotifierProvider.notifier).selecteAll();
                         },
                       ),
                     ),
@@ -114,9 +114,9 @@ class CartScreen extends StatelessWidget {
             ),
             Consumer(
               builder: (context, ref, child) {
-                ref.read(cartState.notifier).caculateTotalAndMaxQty();
-                final total = ref.watch(cartState).total;
-                final qty = ref.watch(cartState).maxQty;
+                ref.read(cartNotifierProvider.notifier).caculateTotalAndMaxQty();
+                final total = ref.watch(cartNotifierProvider).total;
+                final qty = ref.watch(cartNotifierProvider).maxQty;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
