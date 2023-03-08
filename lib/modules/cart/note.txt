@@ -1,0 +1,51 @@
+//// Các mục cần thêm trong file tương ứng
+pubspec.yaml
+    assets:
+        - assets/images/bag.svg
+        - assets/images/cart-success.png
+    dev_dependencies:
+        hive_generator: ^2.0.0
+        build_runner: ^2.3.3
+    dependencies:
+        hive_flutter: ^1.1.0
+        flutter_svg: ^2.0.2
+        intl: ^0.18.0
+
+main.dart
+    final GoRouter _router = GoRouter(
+    initialLocation: '/prodcut-detail',
+        routes: [
+            ...
+            LayoutCart.goRoute(),
+            LayoutProductDetail.goRoute(),
+            LayoutCartDetail.goRoute(),
+            LayoutCartSuccess.goRoute(),
+        ],
+    );
+    
+    //// Chỉnh lại function main ở main.dart
+    Future<void> main() async {
+        WidgetsFlutterBinding.ensureInitialized();
+
+        await Hive.initFlutter();
+
+        Hive.registerAdapter(CartModelAdapter());
+        await Hive.openBox<CartModel>('CartBox');
+
+        runApp(const ProviderScope(child: MyApp()));
+    }
+
+
+//// Các function Xài bên ngoài
+    -Thêm vào cart (nếu đã có thì số lượng sẽ tăng thêm bằng với số "qty")
+        ref.read(cartState.notifier).addToCart(item: CartModel(price: data.regularPrice, name: data.namevi, photo: data.photo, productId: data.id), qty: 1);
+
+//// Lưu ý
+    - giỏ hàng phải chọn ít nhất 1 sản phẩm mới thanh toán được
+    - CartState là provider thuộc ChangeNotifiProvider, có thể truy vấn các giá trị và hàm bên trong thông qua ref
+        vd: ref.read(cartState.notifier).Hàm
+        vd: ref.watch(cartState).biến
+    - Các biến cần quan tâm gồm:
+        - list: danh sách cart, (type: List<CartModel>)
+        - box: dùng để tương tác với hive
+    - Do hiện tại demo đã bị khóa nên cart sẽ chỉ hoạt động ofline nên không cần quan tâm các mục load API trong repository
