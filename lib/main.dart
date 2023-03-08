@@ -19,7 +19,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
-
   Hive.registerAdapter(CartModelAdapter());
   await Hive.openBox<CartModel>('CartBox');
 
