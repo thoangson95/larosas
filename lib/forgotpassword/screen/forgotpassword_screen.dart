@@ -45,7 +45,7 @@ class _FogotpasswordScreenState extends State<FogotpasswordScreen> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onPressed: () {
-              Navigator.pop(context);
+              context.go('/login');
             },
             icon: const Icon(
               Icons.arrow_back,

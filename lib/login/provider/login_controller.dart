@@ -21,7 +21,7 @@ import 'login_state.dart';
 
 Future<List<UserModel>> getUserList() async {
   final dio = Dio();
-  final response = await dio.post("http://192.168.1.39/test/user");
+  final response = await dio.post("http://demo39.ninavietnam.com.vn/test1/user");
   if (response.statusCode == 200) {
     List jsonRaw = jsonDecode(response.data);
     List<UserModel> data = jsonRaw.map((e) => UserModel.fromJson(e)).toList();

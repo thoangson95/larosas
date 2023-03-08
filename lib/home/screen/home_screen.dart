@@ -1,9 +1,9 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:thoitrang/userinfo/screen/userinfo_screen.dart';
 import '../../cart/screen/cart_screen.dart';
 import '../../constants.dart';
 import '../../icons/AppFonts_icons.dart';
-import '../../login/screen/login_screen.dart';
 import 'widget/home_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const HomeWidget(),
     const HomeWidget(),
     const CartScreen(),
-    LoginScreen(),
+    const UserInfoScreen(),
   ];
 
   void _onItemTapped(int index) {

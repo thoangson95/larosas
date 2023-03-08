@@ -19,6 +19,8 @@ import 'product_detail/layout_product_detail.dart';
 import 'product_filter/layout_product.filter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'userinfo/layout_userinfo.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -38,6 +40,7 @@ final GoRouter _router = GoRouter(
     LayoutProductFilter.goRoute(),
     LayoutProductDeatil.goRoute(),
     LayoutLogin.goRoute(),
+    LayoutUserInfo.goRoute(),
     LayoutRegister.goRoute(),
     LayoutForgotPassword.goRoute(),
     LayoutRedeemCode.goRoute(),

@@ -29,39 +29,66 @@ class RegisterScreen extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.white,
           shadowColor: Colors.transparent,
-          leading: IconButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () {
-              context.go('/login');
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-          ),
-          actions: [
-            Container(
-              padding: const EdgeInsets.only(right: 12),
-              child: TextButton(
+          leading: Consumer(
+            builder: (context, ref, child) {
+              return IconButton(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 onPressed: () {
                   context.go('/login');
+                  ref.read(invalidUsername.notifier).state = ref
+                      .read(invalidNumber.notifier)
+                      .state = ref.read(invalidEmail.notifier).state = ref
+                          .read(isEmptyUsername.notifier)
+                          .state =
+                      ref.read(isEmptyPhone.notifier).state =
+                          ref.read(isEmptyEmail.notifier).state =
+                              ref.read(isEmptyPassword.notifier).state = false;
+                  ref.read(acceptPolicyState.notifier).state = 0;
                 },
-                style: ButtonStyle(
-                  overlayColor: MaterialStateProperty.resolveWith(
-                    (states) {
-                      return Colors.transparent;
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+              );
+            },
+          ),
+          actions: [
+            Consumer(
+              builder: (context, ref, child) {
+                return Container(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: TextButton(
+                    onPressed: () {
+                      context.go('/login');
+                      ref.read(invalidUsername.notifier).state = ref
+                          .read(invalidNumber.notifier)
+                          .state = ref.read(invalidEmail.notifier).state = ref
+                              .read(isEmptyUsername.notifier)
+                              .state =
+                          ref.read(isEmptyPhone.notifier).state = ref
+                                  .read(isEmptyEmail.notifier)
+                                  .state =
+                              ref.read(isEmptyPassword.notifier).state = false;
+                      ref.read(acceptPolicyState.notifier).state = 0;
                     },
+                    style: ButtonStyle(
+                      overlayColor: MaterialStateProperty.resolveWith(
+                        (states) {
+                          return Colors.transparent;
+                        },
+                      ),
+                    ),
+                    child: const Text(
+                      "Đăng nhập",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromRGBO(164, 164, 164, 1),
+                      ),
+                    ),
                   ),
-                ),
-                child: const Text(
-                  "Đăng nhập",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color.fromRGBO(164, 164, 164, 1),
-                  ),
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),
@@ -264,12 +291,11 @@ class RegisterScreen extends StatelessWidget {
                                         backgroundColor: maincolor),
                                     onPressed: () {
                                       ref.read(invalidUsername.notifier).state =
-                                          ref
-                                                  .read(invalidNumber.notifier)
-                                                  .state =
-                                              ref
-                                                  .read(invalidEmail.notifier)
-                                                  .state = false;
+                                          false;
+                                      ref.read(invalidNumber.notifier).state =
+                                          false;
+                                      ref.read(invalidEmail.notifier).state =
+                                          false;
                                       if (_username.text.isEmpty) {
                                         ref
                                             .read(isEmptyUsername.notifier)
@@ -314,7 +340,7 @@ class RegisterScreen extends StatelessWidget {
                                         ref.read(isLoading.notifier).state =
                                             true;
                                         Future.delayed(
-                                          const Duration(seconds: 5),
+                                          const Duration(seconds: 3),
                                           () {
                                             ref.read(isLoading.notifier).state =
                                                 false;
@@ -324,26 +350,30 @@ class RegisterScreen extends StatelessWidget {
                                               _email.text,
                                               _password.text,
                                               ref,
-                                            ).then((value) => ref
-                                                .read(statement.notifier)
-                                                .state = value);
-                                            if (ref.watch(statement) == 1) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      'Đăng ký thành công'),
-                                                ),
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content:
-                                                      Text('Đăng ký thất bại'),
-                                                ),
-                                              );
-                                            }
+                                            ).then(
+                                              (value) {
+                                                ref
+                                                    .read(statement.notifier)
+                                                    .state = value;
+                                                if (value == 1) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          "Đăng ký thành công"),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          "Đăng ký thất bại"),
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                            );
                                           },
                                         );
                                       }

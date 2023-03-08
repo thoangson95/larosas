@@ -47,7 +47,7 @@ Future<int> createUser(
   WidgetRef ref,
 ) async {
   final dio = Dio();
-  final userlist = await dio.post("http://192.168.1.39/test/user");
+  final userlist = await dio.post("http://demo39.ninavietnam.com.vn/test1/user");
   if (userlist.statusCode == 200) {
     List jsonRaw = jsonDecode(userlist.data);
     List<UserModel> data = jsonRaw.map((e) => UserModel.fromJson(e)).toList();
@@ -61,7 +61,7 @@ Future<int> createUser(
         'password': password,
       });
       final response = await dio.post(
-        "http://192.168.1.39/test/register",
+        "http://demo39.ninavietnam.com.vn/test1/register",
         data: formData,
       );
       if (response.statusCode == 200) {

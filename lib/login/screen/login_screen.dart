@@ -26,25 +26,31 @@ class LoginScreen extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           actions: [
-            TextButton(
-              onPressed: () {
-                context.go('/register');
-              },
-              style: ButtonStyle(
-                overlayColor: MaterialStateProperty.resolveWith(
-                  (states) {
-                    return Colors.transparent;
+            Consumer(
+              builder: (context, ref, child) {
+                return TextButton(
+                  onPressed: () {
+                    context.go('/register');
+                    ref.read(isEmptyEmail.notifier).state = false;
+                    ref.read(isEmptyPassword.notifier).state = false;
                   },
-                ),
-              ),
-              child: const Text(
-                "Đăng ký",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color.fromRGBO(164, 164, 164, 1),
-                ),
-              ),
-            ),
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.resolveWith(
+                      (states) {
+                        return Colors.transparent;
+                      },
+                    ),
+                  ),
+                  child: const Text(
+                    "Đăng ký",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color.fromRGBO(164, 164, 164, 1),
+                    ),
+                  ),
+                );
+              },
+            )
           ],
           backgroundColor: Colors.white,
           shadowColor: Colors.transparent,
@@ -254,41 +260,49 @@ class LoginScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Center(
-                        child: TextButton(
-                          onPressed: () {
-                            context.go('/forgotpassword');
-                          },
-                          style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.resolveWith(
-                              (states) {
-                                return maincolor;
+                    Consumer(
+                      builder: (context, ref, child) {
+                        return Container(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Center(
+                            child: TextButton(
+                              onPressed: () {
+                                context.go('/forgotpassword');
+                                ref.read(isEmptyEmail.notifier).state = false;
+                                ref.read(isEmptyPassword.notifier).state =
+                                    false;
                               },
-                            ),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            padding: MaterialStateProperty.resolveWith(
-                              (states) {
-                                return const EdgeInsets.all(0);
-                              },
-                            ),
-                            minimumSize: MaterialStateProperty.resolveWith(
-                              (states) {
-                                return Size.zero;
-                              },
-                            ),
-                            overlayColor: MaterialStateProperty.resolveWith(
-                              (states) {
-                                return Colors.transparent;
-                              },
+                              style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.resolveWith(
+                                  (states) {
+                                    return maincolor;
+                                  },
+                                ),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                padding: MaterialStateProperty.resolveWith(
+                                  (states) {
+                                    return const EdgeInsets.all(0);
+                                  },
+                                ),
+                                minimumSize: MaterialStateProperty.resolveWith(
+                                  (states) {
+                                    return Size.zero;
+                                  },
+                                ),
+                                overlayColor: MaterialStateProperty.resolveWith(
+                                  (states) {
+                                    return Colors.transparent;
+                                  },
+                                ),
+                              ),
+                              child: const Text(
+                                "Quên mật khẩu ?",
+                              ),
                             ),
                           ),
-                          child: const Text(
-                            "Quên mật khẩu ?",
-                          ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -343,7 +357,7 @@ class LoginScreen extends StatelessWidget {
                                                           'Đăng nhập thành công'),
                                                     ),
                                                   );
-                                                  context.go("/");
+                                                  context.go("/home");
                                                 },
                                               );
                                             } else {
@@ -394,7 +408,7 @@ class LoginScreen extends StatelessWidget {
               child: Image.network(
                 "http://demo39.ninavietnam.com.vn/test1/thumbs/390x334x1/upload/photo/loginpic-7250.png",
                 width: double.infinity,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
           ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../home/layout_home.dart';
 import '../../constants.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _LoadingScreenState extends State<LoadingScreen>
     super.initState();
 
     Future.delayed(const Duration(seconds: 2), () {
-      GoRouter.of(context).go(LayoutHome.pathRoute);
+      GoRouter.of(context).go('/login');
     });
   }
 

@@ -83,7 +83,12 @@ Widget tf(
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],
-                  decoration: InputDecoration.collapsed(
+                  maxLength: 10,
+
+                  decoration: InputDecoration(
+                    isCollapsed: true,
+                    border: InputBorder.none,
+                    counterText: "",
                     hintText: lable,
                     hintStyle: const TextStyle(fontSize: 13),
                   ),
