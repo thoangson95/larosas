@@ -16,7 +16,9 @@ class HeaderWidget extends StatelessWidget {
         children: [
           Image.asset('assets/images/logo.png'),
           TextButton(
-            onPressed: () => context.go('/login'),
+            onPressed: () {
+              context.push("/cart");
+            },
             child: Image.asset('assets/images/bag.png'),
           )
         ],
