@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:larosas/modules/register/layout_register.dart';
 
 import 'constants.dart';
-import 'modules/login/layout_login.dart';
 
 void main() {
   runApp(const ProviderScope(
@@ -18,8 +16,7 @@ final GoRouter _router = GoRouter(
     // LayoutLoading.goRoute(),
     // LayoutHome.goRoute(),
     // LayoutProductDeatil.goRoute(),
-    LayoutLogin.goRoute(),
-    LayoutRegister.goRoute(),
+    // LayoutLogin.goRoute(),
     // LayoutRegister.goRoute(),
     // LayoutForget.goRoute(),
     // LayoutForgetCode.goRoute()
