@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -261,23 +263,23 @@ class CartDetailScreen extends ConsumerWidget {
               child: ElevatedButton(
                 onPressed: () {
                   if (cartNotEmpty) {
-                    context.push("/cart-success");
-                    // alert(context, const Text("Thông báo"), const Text("Đang tải"), []);
-                    // String param = jsonEncode(listProduct);
-                    // ref.read(cartControllerProvider).saveCart(param).then((value) {
-                    //   if (value) {
-                    //     context.pop();
-                    //     context.push("/cart-success");
-                    //   } else {
-                    //     alert(context, const Text("Cảnh báo"), const Text("Đặt hàng thất bại, vui lòng thử lại sau"), [
-                    //       TextButton(
-                    //           onPressed: () {
-                    //             context.pop();
-                    //           },
-                    //           child: const Text("OK"))
-                    //     ]);
-                    //   }
-                    // });
+                    // context.push("/cart-success");
+                    alert(context, const Text("Thông báo"), const Text("Đang tải"), []);
+                    String param = jsonEncode(listProduct);
+                    ref.read(cartControllerProvider).saveCart(param).then((value) {
+                      if (value) {
+                        context.pop();
+                        context.push("/cart-success");
+                      } else {
+                        alert(context, const Text("Cảnh báo"), const Text("Đặt hàng thất bại, vui lòng thử lại sau"), [
+                          TextButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              child: const Text("OK"))
+                        ]);
+                      }
+                    });
                   } else {
                     alert(context, const Text("Cảnh báo"), const Text("Chưa có sản phẩn nào được chọn"), [
                       TextButton(

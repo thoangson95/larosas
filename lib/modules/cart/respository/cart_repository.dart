@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -36,7 +37,7 @@ class CartRepository {
             HttpHeaders.contentTypeHeader: "application/x-www-form-urlencoded"
           }));
       // print(res.data);
-      return res.data;
+      return jsonDecode(res.data);
     } on DioError {
       rethrow;
     }
