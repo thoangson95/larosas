@@ -1,45 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
+import 'package:thoitrang/loading/layout_loading.dart';
 import 'constants.dart';
-import 'modules/cart/layout_cart.dart';
-import 'modules/cart/layout_cart_detail.dart';
-import 'modules/cart/layout_cart_success.dart';
-import 'modules/cart/model/cart_model.dart';
-import 'modules/product_detail/layout_product_detail.dart';
-import 'modules/order/layout_order.dart';
-import 'modules/waiting/layout_order.dart';
-import 'modules/waiting/screen/waiting_screen.dart';
+import 'account/forget/layout_forget.dart';
+import 'account/forget_code/layout_forget_code.dart';
+import 'home/layout_home.dart';
+import 'account/login/layout_login.dart';
+import 'product_all/layout_product_all.dart';
+import 'product_detail/layout_product_detail.dart';
+import 'account/register/layout_register.dart';
+import 'product_filter/layout_product.filter.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await Hive.initFlutter();
-
-  Hive.registerAdapter(CartModelAdapter());
-  await Hive.openBox<CartModel>('CartBox');
-
-  runApp(const ProviderScope(child: MyApp()));
+void main() {
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 final GoRouter _router = GoRouter(
   initialLocation: '/',
   routes: <RouteBase>[
-    LayoutOrder.goRoute(),
-    LayoutWaiting.goRoute(),
-    // LayoutLoading.goRoute(),
-    // LayoutHome.goRoute(),
-    // LayoutProductDeatil.goRoute(),
-    // LayoutLogin.goRoute(),
-    // LayoutRegister.goRoute(),
-    // LayoutForget.goRoute(),
-    // LayoutForgetCode.goRoute()
-    LayoutCart.goRoute(),
-    LayoutProductDetail.goRoute(),
-    LayoutCartDetail.goRoute(),
-    LayoutCartSuccess.goRoute(),
+    LayoutLoading.goRoute(),
+    LayoutHome.goRoute(),
+    LayoutProductAll.goRoute(),
+    LayoutProductFilter.goRoute(),
+    LayoutProductDeatil.goRoute(),
+    LayoutLogin.goRoute(),
+    LayoutRegister.goRoute(),
+    LayoutForget.goRoute(),
+    LayoutForgetCode.goRoute()
   ],
 );
 
@@ -50,18 +43,19 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      title: 'Larosas',
+      title: 'Thời trang',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'UA',
         primaryColor: colorMain,
-
-        // Khang
-        appBarTheme: const AppBarTheme(backgroundColor: appBarBackground, elevation: 0, iconTheme: IconThemeData(color: backButtonColor)),
-        scaffoldBackgroundColor: scaffoldBackground,
       ),
       routerConfig: _router,
-      builder: (context, child) => WaitingScreen(),
+      builder: (context, child) => Stack(
+        children: [
+          child!,
+          const DropdownAlert(),
+        ],
+      ),
     );
   }
 }
