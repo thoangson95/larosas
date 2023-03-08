@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:thoitrang/forgotpassword/layout_forgotpassword.dart';
 import 'package:thoitrang/loading/layout_loading.dart';
+import 'package:thoitrang/login/layout_login.dart';
+import 'package:thoitrang/register/layout_register.dart';
 import 'cart/layout_cart.dart';
 import 'cart/layout_cart_detail.dart';
 import 'cart/layout_cart_success.dart';
@@ -15,6 +18,8 @@ import 'product_detail/layout_product_detail.dart';
 import 'product_filter/layout_product.filter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'redeemcode/layout_redeemcode.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -26,7 +31,7 @@ Future<void> main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/order',
+  initialLocation: '/login',
   routes: <RouteBase>[
     LayoutLoading.goRoute(),
     LayoutHome.goRoute(),
@@ -37,6 +42,10 @@ final GoRouter _router = GoRouter(
     LayoutCart.goRoute(),
     LayoutCartDetail.goRoute(),
     LayoutCartSuccess.goRoute(),
+    LayoutLogin.goRoute(),
+    LayoutRegister.goRoute(),
+    LayoutForgotPassword.goRoute(),
+    LayoutRedeemCode.goRoute(),
   ],
 );
 

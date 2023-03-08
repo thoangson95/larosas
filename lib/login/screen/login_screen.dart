@@ -258,7 +258,9 @@ class LoginScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Center(
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go('/forgotpassword');
+                          },
                           style: ButtonStyle(
                             foregroundColor: MaterialStateProperty.resolveWith(
                               (states) {
@@ -332,9 +334,6 @@ class LoginScreen extends StatelessWidget {
                                                   ref
                                                       .read(loading.notifier)
                                                       .state = false;
-                                                  ref
-                                                      .read(loginState.notifier)
-                                                      .state = false;
                                                   _email.clear();
                                                   _password.clear();
                                                   ScaffoldMessenger.of(context)
@@ -344,6 +343,7 @@ class LoginScreen extends StatelessWidget {
                                                           'Đăng nhập thành công'),
                                                     ),
                                                   );
+                                                  context.go("/");
                                                 },
                                               );
                                             } else {
@@ -352,9 +352,6 @@ class LoginScreen extends StatelessWidget {
                                                 () {
                                                   ref
                                                       .read(loading.notifier)
-                                                      .state = false;
-                                                  ref
-                                                      .read(loginState.notifier)
                                                       .state = false;
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
