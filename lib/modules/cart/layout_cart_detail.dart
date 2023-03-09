@@ -9,11 +9,11 @@ class LayoutCartDetail extends StatelessWidget {
   static String pathRoute = '/cart-detail';
   static GoRoute goRoute() => GoRoute(
         path: pathRoute,
-        builder: (context, state) => CartDetailScreen(),
+        builder: (context, state) => const CartDetailScreen(),
       );
 
   @override
   Widget build(BuildContext context) {
-    return CartDetailScreen();
+    return const CartDetailScreen();
   }
 }

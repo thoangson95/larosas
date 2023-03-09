@@ -6,7 +6,7 @@ class CartSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void _goToOrder() {
+    void goToOrder() {
       context.push("/order");
     }
 
@@ -57,7 +57,7 @@ class CartSuccessScreen extends StatelessWidget {
                       child: SizedBox(
                         height: 46,
                         child: ElevatedButton(
-                          onPressed: _goToOrder,
+                          onPressed: goToOrder,
                           style: ElevatedButton.styleFrom(elevation: 0, backgroundColor: const Color(0xFFFF7465), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                           child: const Text(
                             "Xem đơn hàng",

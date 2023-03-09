@@ -25,13 +25,14 @@ class CartRepository {
     }
   }
 
-  Future<bool> saveCartAPI(String param, String address, String note) async {
+  Future<bool> saveCartAPI(String param, String address, String note, String fullname) async {
     try {
       FormData data = FormData.fromMap({
         'type': "saveCart",
         'listProduct': param,
         'address': address,
         'note': note,
+        'fullname': fullname,
       });
       final res = await dio.post(
         "http://demo80.ninavietnam.com.vn/test_app_api/api/product_api.php",

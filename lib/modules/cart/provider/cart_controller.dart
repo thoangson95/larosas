@@ -20,9 +20,9 @@ class CartController {
     }
   }
 
-  Future<bool> saveCart(String param, String address, String note) async {
+  Future<bool> saveCart(String param, String address, String note, String fullname) async {
     try {
-      final res = await repo.saveCartAPI(param, address, note);
+      final res = await repo.saveCartAPI(param, address, note, fullname);
       return res;
     } on DioError {
       rethrow;

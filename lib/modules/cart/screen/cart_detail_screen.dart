@@ -23,18 +23,18 @@ class _CartDetailScreenState extends ConsumerState<CartDetailScreen> {
 
   late TextEditingController _diachiCtrl;
   late TextEditingController _ghichuCtrl;
+  late TextEditingController _fullnameCtrl;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _diachiCtrl = TextEditingController();
     _ghichuCtrl = TextEditingController();
+    _fullnameCtrl = TextEditingController();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _diachiCtrl.dispose();
     _ghichuCtrl.dispose();
@@ -113,6 +113,19 @@ class _CartDetailScreenState extends ConsumerState<CartDetailScreen> {
                                               child: TextFormField(
                                                 decoration: const InputDecoration(hintText: "Địa chỉ"),
                                                 controller: _diachiCtrl,
+                                                validator: (value) {
+                                                  if (value == null || value.isEmpty) {
+                                                    return 'Vui lòng không bỏ trống';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: const InputDecoration(hintText: "Họ và tên"),
+                                                controller: _fullnameCtrl,
                                                 validator: (value) {
                                                   if (value == null || value.isEmpty) {
                                                     return 'Vui lòng không bỏ trống';
@@ -350,7 +363,7 @@ class _CartDetailScreenState extends ConsumerState<CartDetailScreen> {
                   if (cartNotEmpty) {
                     alert(context, const Text("Thông báo"), const Text("Đang tải"), []);
                     String param = jsonEncode(listProduct);
-                    ref.read(cartControllerProvider).saveCart(param, _diachiCtrl.text, _ghichuCtrl.text).then((value) {
+                    ref.read(cartControllerProvider).saveCart(param, _diachiCtrl.text, _ghichuCtrl.text, _fullnameCtrl.text).then((value) {
                       if (value) {
                         ref.read(cartNotifierProvider.notifier).clear();
                         context.pop();

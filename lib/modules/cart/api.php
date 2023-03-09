@@ -51,7 +51,8 @@
   
 	if($type == "saveCart"){
 		$data = (!empty($_POST["listProduct"])) ? json_decode($_POST["listProduct"]) : "";
-		
+		$address = (!empty($_POST["address"])) ? $_POST["address"] : "";
+		$note = (!empty($_POST["note"])) ? $_POST["note"] : "";
 		if(!empty($data)){
 			$totalPrice = 0;
 			$listSP = array();
@@ -74,6 +75,8 @@
 				$data_donhang['id_user'] = (!empty($_SESSION[$loginMember]['id'])) ? $_SESSION[$loginMember]['id'] : 0;
 				$data_donhang['total_price'] = $totalPrice;
 				$data_donhang['date_created'] = $order_date;
+				$data_donhang['address'] = $address;
+				$data_donhang['notes'] = $note;
 				$data_donhang['order_status'] = 1;
 				$data_donhang['numb'] = 1;
 				$id_insert = $d->insert('order', $data_donhang);

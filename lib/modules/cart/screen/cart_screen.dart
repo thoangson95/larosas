@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -125,6 +127,7 @@ class CartScreen extends StatelessWidget {
               width: 100,
               child: ElevatedButton(
                 onPressed: () {
+                  log("Vào cart chi tiết");
                   context.push('/cart-detail');
                 },
                 style: ElevatedButton.styleFrom(elevation: 0, backgroundColor: const Color(0xFFFF7465), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
