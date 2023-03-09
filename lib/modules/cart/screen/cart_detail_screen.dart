@@ -11,11 +11,37 @@ import '../provider/cart_controller.dart';
 import 'widget/cart_detail_product_list_widget.dart';
 import 'widget/thoi_gian_nhan_widget.dart';
 
-class CartDetailScreen extends ConsumerWidget {
+class CartDetailScreen extends ConsumerStatefulWidget {
   const CartDetailScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CartDetailScreen> createState() => _CartDetailScreenState();
+}
+
+class _CartDetailScreenState extends ConsumerState<CartDetailScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  late TextEditingController _diachiCtrl;
+  late TextEditingController _ghichuCtrl;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _diachiCtrl = TextEditingController();
+    _ghichuCtrl = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _diachiCtrl.dispose();
+    _ghichuCtrl.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final listProduct = ref.watch(cartNotifierProvider).list.where((element) => element.selected == true).toList();
     final data = ref.watch(cartNotifierProvider);
     final cartNotEmpty = listProduct.isNotEmpty;
@@ -57,7 +83,65 @@ class CartDetailScreen extends ConsumerWidget {
                       width: 123,
                       height: 36,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Stack(
+                                    children: <Widget>[
+                                      Positioned(
+                                        right: -40.0,
+                                        top: -40.0,
+                                        child: InkResponse(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const CircleAvatar(
+                                            backgroundColor: Colors.red,
+                                            child: Icon(Icons.close),
+                                          ),
+                                        ),
+                                      ),
+                                      Form(
+                                        key: _formKey,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: TextFormField(
+                                                decoration: const InputDecoration(hintText: "Địa chỉ"),
+                                                controller: _diachiCtrl,
+                                                validator: (value) {
+                                                  if (value == null || value.isEmpty) {
+                                                    return 'Vui lòng không bỏ trống';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: ElevatedButton(
+                                                child: const Text("Submit"),
+                                                onPressed: () {
+                                                  if (_formKey.currentState!.validate()) {
+                                                    _formKey.currentState!.save();
+                                                    context.pop();
+                                                    setState(() {});
+                                                  }
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
                         style: TextButton.styleFrom(
                           side: const BorderSide(
                             width: 1,
@@ -87,10 +171,10 @@ class CartDetailScreen extends ConsumerWidget {
                   height: 30,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
-                        "Bạn chưa có địa chỉ nhận hàng bấm thêm địa chỉ mới",
-                        style: TextStyle(
+                        _diachiCtrl.text == "" ? "Bạn chưa có địa chỉ nhận hàng bấm thêm địa chỉ mới" : _diachiCtrl.text,
+                        style: const TextStyle(
                           color: Color(0xff7A7D8A),
                           fontSize: 10,
                         ),
@@ -126,9 +210,10 @@ class CartDetailScreen extends ConsumerWidget {
                   ),
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                child: const TextField(
+                child: TextField(
+                  controller: _ghichuCtrl,
                   maxLines: 3,
-                  decoration: InputDecoration.collapsed(hintText: "Bạn có vấn đề gì cần ghi chú vào đây", hintStyle: TextStyle(fontSize: 10, height: 2, color: Color(0xff7A7D8A))),
+                  decoration: const InputDecoration.collapsed(hintText: "Bạn có vấn đề gì cần ghi chú vào đây", hintStyle: TextStyle(fontSize: 10, height: 2, color: Color(0xff7A7D8A))),
                 ),
               ),
 
@@ -263,10 +348,9 @@ class CartDetailScreen extends ConsumerWidget {
               child: ElevatedButton(
                 onPressed: () {
                   if (cartNotEmpty) {
-                    // context.push("/cart-success");
                     alert(context, const Text("Thông báo"), const Text("Đang tải"), []);
                     String param = jsonEncode(listProduct);
-                    ref.read(cartControllerProvider).saveCart(param).then((value) {
+                    ref.read(cartControllerProvider).saveCart(param, _diachiCtrl.text, _ghichuCtrl.text).then((value) {
                       if (value) {
                         ref.read(cartNotifierProvider.notifier).clear();
                         context.pop();

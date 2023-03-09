@@ -195,6 +195,11 @@ class CartNotifier extends Notifier<CartState> {
     if (idx > -1) {
       state.list[idx].selected = !state.list[idx].selected;
       state.box.putAt(idx, state.list[idx]);
+      if (state.box.values.where((element) => element.selected == false).isNotEmpty) {
+        state.isSelectAll = false;
+      } else {
+        state.isSelectAll = true;
+      }
       caculateTotalAndMaxQty();
       reload();
       state = state.copyWith();

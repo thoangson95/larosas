@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../provider/cart_controller.dart';
 import 'widget/cart_item_widget.dart';
@@ -26,22 +27,6 @@ class CartScreen extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          // final data = ref.watch(cartNotifierProvider).list;
-          // return SingleChildScrollView(
-          //   child: Padding(
-          //     padding: const EdgeInsets.symmetric(horizontal: 20),
-          //     child: Column(
-          //       children: data
-          //           .map((e) => Container(
-          //                 margin: const EdgeInsets.only(bottom: 30),
-          //                 child: CartItemWidget(
-          //                   item: e,
-          //                 ),
-          //               ))
-          //           .toList(),
-          //     ),
-          //   ),
-          // );
           return ref.watch(cartFutureRecheckProvider).when(
                 data: (data) {
                   final item = ref.watch(cartNotifierProvider).list;
@@ -50,12 +35,14 @@ class CartScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                         children: item
+                            .asMap()
+                            .entries
                             .map((e) => Container(
                                   margin: const EdgeInsets.only(bottom: 30),
                                   child: CartItemWidget(
-                                    item: e,
+                                    item: e.value,
                                   ),
-                                ))
+                                ).animate(delay: (e.key * 150).ms).fade().slideX())
                             .toList(),
                       ),
                     ),

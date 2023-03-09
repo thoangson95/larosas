@@ -26,6 +26,6 @@ final dioProvider = Provider<Dio>((ref) {
   return dio;
 });
 
-final productDetailIdProvier = StateProvider<int>((ref) => 44);
+final productDetailIdProvier = StateProvider<int>((ref) => 39);
 
 final productDetailProvider = FutureProvider<ProductDetailModel>((ref) => ProductDetailController(ref.watch(dioProvider)).fetchProductDetail(ref.watch(productDetailIdProvier)));

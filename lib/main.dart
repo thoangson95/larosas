@@ -17,6 +17,7 @@ Future<void> main() async {
 
   Hive.registerAdapter(CartModelAdapter());
   await Hive.openBox<CartModel>('CartBox');
+  await Hive.openBox<CartModel>('UserInfo');
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -31,12 +32,22 @@ final GoRouter _router = GoRouter(
   ],
 );
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Larosas',
       debugShowCheckedModeBanner: false,
