@@ -10,6 +10,8 @@ final loading = StateProvider<bool>((ref) => false);
 
 final isShowPasswordState = StateProvider((ref) => false);
 
-final isEmptyEmail = StateProvider((ref) => false);
+final isLEmptyEmail = StateProvider((ref) => false);
 
-final isEmptyPassword = StateProvider((ref) => false);
+final isLEmptyPassword = StateProvider((ref) => false);
+
+final facebookuserState = StateProvider((ref) => "");

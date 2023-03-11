@@ -1,14 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../login/provider/login_state.dart';
 
-class UserInfoScreen extends StatelessWidget {
+class UserInfoScreen extends ConsumerWidget {
   const UserInfoScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         shape: const BorderDirectional(
@@ -57,10 +60,18 @@ class UserInfoScreen extends StatelessWidget {
                   onPressed: () {},
                   child: Row(
                     children: [
-                      const SizedBox(
+                      SizedBox(
                         width: 60,
                         height: 60,
-                        child: CircleAvatar(),
+                        child: CircleAvatar(
+                            backgroundImage: ref
+                                    .watch(facebookuserState)
+                                    .isNotEmpty
+                                ? NetworkImage(jsonDecode(
+                                        ref.watch(facebookuserState))['picture']
+                                    ['data']['url'])
+                                : const NetworkImage(
+                                    'http://demo39.ninavietnam.com.vn/test1/thumbs/390x334x1/upload/photo/loginpic-7250.png')),
                       ),
                       const Padding(
                         padding: EdgeInsets.only(left: 14),
@@ -68,13 +79,16 @@ class UserInfoScreen extends StatelessWidget {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
-                              'Thạch Bảo Ngọc',
-                              style: TextStyle(
+                              ref.watch(facebookuserState).isNotEmpty
+                                  ? jsonDecode(
+                                      ref.watch(facebookuserState))['name']
+                                  : '',
+                              style: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             ),
-                            Text(
+                            const Text(
                               'Chỉnh sửa',
                               style: TextStyle(
                                 fontSize: 12,
@@ -385,38 +399,41 @@ class UserInfoScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                child: Consumer(
-                  builder: (context, ref, child) {
-                    return TextButton(
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.black),
-                        overlayColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.transparent),
-                        padding: MaterialStateProperty.resolveWith(
-                            (states) => EdgeInsets.zero),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        minimumSize: MaterialStateProperty.resolveWith(
-                          (states) => Size.zero,
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.black),
+                    overlayColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.transparent),
+                    padding: MaterialStateProperty.resolveWith(
+                        (states) => EdgeInsets.zero),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    minimumSize: MaterialStateProperty.resolveWith(
+                      (states) => Size.zero,
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (ref.watch(facebookuserState).isNotEmpty) {
+                      await FacebookAuth.instance
+                          .logOut()
+                          .then((value) => context.go('/login'));
+                      ref.read(facebookuserState.notifier).state = "";
+                    } else {
+                      context.go('/login');
+                      ref.read(loginState.notifier).state = false;
+                    }
+                  },
+                  child: Row(
+                    children: const [
+                      Expanded(
+                        child: Text(
+                          "Đăng xuất",
+                          style: TextStyle(fontSize: 13),
                         ),
                       ),
-                      onPressed: () {
-                        ref.read(loginState.notifier).state = false;
-                        context.go('/login');
-                      },
-                      child: Row(
-                        children: const [
-                          Expanded(
-                            child: Text(
-                              "Đăng xuất",
-                              style: TextStyle(fontSize: 13),
-                            ),
-                          ),
-                          Icon(Icons.chevron_right),
-                        ],
-                      ),
-                    );
-                  },
+                      Icon(Icons.chevron_right),
+                    ],
+                  ),
                 ),
               ),
             ],

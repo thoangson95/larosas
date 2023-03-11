@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/user_model.dart';
@@ -28,6 +29,24 @@ bool checkIsValidPhone(List<UserModel> users, String val, WidgetRef ref) {
   return boolean;
 }
 
+Future<AccessToken?> loginfb() async {
+  final LoginResult result =
+      await FacebookAuth.instance.login(permissions: ['email']);
+  if (result.status == LoginStatus.success) {
+    final AccessToken accessToken = result.accessToken!;
+    return accessToken;
+  } else {
+    print(result.status);
+    print(result.message);
+    return null;
+  }
+}
+
+Future userinfo() async {
+  final userData = await FacebookAuth.instance.getUserData();
+  return userData;
+}
+
 bool checkIsValidEmail(List<UserModel> users, String val, WidgetRef ref) {
   bool boolean = true;
   for (int i = 0; i < users.length; i++) {
@@ -47,7 +66,8 @@ Future<int> createUser(
   WidgetRef ref,
 ) async {
   final dio = Dio();
-  final userlist = await dio.post("http://demo39.ninavietnam.com.vn/test1/user");
+  final userlist =
+      await dio.post("http://demo39.ninavietnam.com.vn/test1/user");
   if (userlist.statusCode == 200) {
     List jsonRaw = jsonDecode(userlist.data);
     List<UserModel> data = jsonRaw.map((e) => UserModel.fromJson(e)).toList();

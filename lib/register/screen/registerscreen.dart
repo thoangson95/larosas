@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../login/provider/login_state.dart';
 import '../provider/register_controller.dart';
 import '../provider/register_state.dart';
 import 'widget/registerwidget.dart';
@@ -406,7 +409,21 @@ class RegisterScreen extends StatelessWidget {
                                         color: Color(0xFF1877F2),
                                       ),
                                       alignment: Alignment.center),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    loginfb().then(
+                                      (value) {
+                                        if (value!.token.isNotEmpty) {
+                                          userinfo().then((value1) {
+                                            ref
+                                                .read(
+                                                    facebookuserState.notifier)
+                                                .state = jsonEncode(value1);
+                                            GoRouter.of(context).go('/home');
+                                          });
+                                        } else {}
+                                      },
+                                    );
+                                  },
                                   icon: const Icon(Icons.facebook),
                                   label: const Text(
                                     "Tiếp tục với Facebook",

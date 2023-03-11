@@ -1,15 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import '../../constants.dart';
+import 'dart:convert';
 
-class LoadingScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:thoitrang/loading/provider/loading_provider.dart';
+import '../../constants.dart';
+import '../../login/provider/login_state.dart';
+import '../../register/provider/register_controller.dart';
+
+class LoadingScreen extends ConsumerStatefulWidget {
   const LoadingScreen({super.key});
 
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen>
+class _LoadingScreenState extends ConsumerState<LoadingScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
     duration: const Duration(seconds: 1),
@@ -19,10 +25,30 @@ class _LoadingScreenState extends State<LoadingScreen>
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(const Duration(seconds: 2), () {
-      GoRouter.of(context).go('/login');
-    });
+    Future.delayed(
+      const Duration(seconds: 2),
+      () {
+        accesstoken().then((value) {
+          if (value != null) {
+            loginfb().then(
+              (value) {
+                if (value!.token.isNotEmpty) {
+                  userinfo().then((value1) {
+                    ref.read(facebookuserState.notifier).state =
+                        jsonEncode(value1);
+                    GoRouter.of(context).go('/home');
+                  });
+                } else {
+                  GoRouter.of(context).go('/login');
+                }
+              },
+            );
+          } else {
+            GoRouter.of(context).go('/login');
+          }
+        });
+      },
+    );
   }
 
   @override

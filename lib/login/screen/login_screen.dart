@@ -31,8 +31,8 @@ class LoginScreen extends StatelessWidget {
                 return TextButton(
                   onPressed: () {
                     context.go('/register');
-                    ref.read(isEmptyEmail.notifier).state = false;
-                    ref.read(isEmptyPassword.notifier).state = false;
+                    ref.read(isLEmptyEmail.notifier).state = false;
+                    ref.read(isLEmptyPassword.notifier).state = false;
                   },
                   style: ButtonStyle(
                     overlayColor: MaterialStateProperty.resolveWith(
@@ -106,11 +106,11 @@ class LoginScreen extends StatelessWidget {
                                       onChanged: (value) {
                                         if (value.isNotEmpty) {
                                           ref
-                                              .read(isEmptyEmail.notifier)
+                                              .read(isLEmptyEmail.notifier)
                                               .state = false;
                                         } else {
                                           ref
-                                              .read(isEmptyEmail.notifier)
+                                              .read(isLEmptyEmail.notifier)
                                               .state = true;
                                         }
                                       },
@@ -126,7 +126,7 @@ class LoginScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            if (ref.watch(isEmptyEmail))
+                            if (ref.watch(isLEmptyEmail))
                               Positioned(
                                 bottom: 0,
                                 child: Text(
@@ -179,11 +179,11 @@ class LoginScreen extends StatelessWidget {
                                       onChanged: (value) {
                                         if (value.isNotEmpty) {
                                           ref
-                                              .read(isEmptyPassword.notifier)
+                                              .read(isLEmptyPassword.notifier)
                                               .state = false;
                                         } else {
                                           ref
-                                              .read(isEmptyPassword.notifier)
+                                              .read(isLEmptyPassword.notifier)
                                               .state = true;
                                         }
                                       },
@@ -245,7 +245,7 @@ class LoginScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            if (ref.watch(isEmptyPassword))
+                            if (ref.watch(isLEmptyPassword))
                               Positioned(
                                 bottom: 0,
                                 child: Text(
@@ -268,8 +268,8 @@ class LoginScreen extends StatelessWidget {
                             child: TextButton(
                               onPressed: () {
                                 context.go('/forgotpassword');
-                                ref.read(isEmptyEmail.notifier).state = false;
-                                ref.read(isEmptyPassword.notifier).state =
+                                ref.read(isLEmptyEmail.notifier).state = false;
+                                ref.read(isLEmptyPassword.notifier).state =
                                     false;
                               },
                               style: ButtonStyle(
@@ -322,11 +322,11 @@ class LoginScreen extends StatelessWidget {
                                   onPressed: () {
                                     FocusScope.of(context).unfocus();
                                     if (_email.text == '') {
-                                      ref.read(isEmptyEmail.notifier).state =
+                                      ref.read(isLEmptyEmail.notifier).state =
                                           true;
                                     }
                                     if (_password.text == '') {
-                                      ref.read(isEmptyPassword.notifier).state =
+                                      ref.read(isLEmptyPassword.notifier).state =
                                           true;
                                     }
                                     if (_email.text.isNotEmpty &&
@@ -343,7 +343,7 @@ class LoginScreen extends StatelessWidget {
                                                 true;
                                             if (ref.watch(loginState)) {
                                               Future.delayed(
-                                                const Duration(seconds: 5),
+                                                const Duration(seconds: 2),
                                                 () {
                                                   ref
                                                       .read(loading.notifier)
@@ -362,7 +362,7 @@ class LoginScreen extends StatelessWidget {
                                               );
                                             } else {
                                               Future.delayed(
-                                                const Duration(seconds: 5),
+                                                const Duration(seconds: 2),
                                                 () {
                                                   ref
                                                       .read(loading.notifier)
