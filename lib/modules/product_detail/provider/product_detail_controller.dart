@@ -22,8 +22,7 @@ class ProductDetailController {
 }
 
 final dioProvider = Provider<Dio>((ref) {
-  final dio = Dio();
-  return dio;
+  return Dio();
 });
 
 final productDetailIdProvier = StateProvider<int>((ref) => 39);

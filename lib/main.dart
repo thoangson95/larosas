@@ -8,7 +8,11 @@ import 'modules/cart/layout_cart.dart';
 import 'modules/cart/layout_cart_detail.dart';
 import 'modules/cart/layout_cart_success.dart';
 import 'modules/cart/model/cart_model.dart';
+import 'modules/forgotpassword/layout_forgotpassword.dart';
+import 'modules/login/layout_login.dart';
 import 'modules/product_detail/layout_product_detail.dart';
+import 'modules/redeemcode/layout_redeemcode.dart';
+import 'modules/register/layout_register.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +33,10 @@ final GoRouter _router = GoRouter(
     LayoutCartDetail.goRoute(),
     LayoutProductDetail.goRoute(),
     LayoutCartSuccess.goRoute(),
+    LayoutLogin.goRoute(),
+    LayoutRedeemCode.goRoute(),
+    LayoutRegister.goRoute(),
+    LayoutForgotPassword.goRoute(),
   ],
 );
 
