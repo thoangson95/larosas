@@ -4,13 +4,17 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'constants.dart';
+import 'modules/camera/layout_camera.dart';
 import 'modules/cart/layout_cart.dart';
 import 'modules/cart/layout_cart_detail.dart';
 import 'modules/cart/layout_cart_success.dart';
 import 'modules/cart/model/cart_model.dart';
 import 'modules/forgotpassword/layout_forgotpassword.dart';
+import 'modules/google_map/layout_google_map.dart';
 import 'modules/login/layout_login.dart';
+import 'modules/pdf/layout_pdf.dart';
 import 'modules/product_detail/layout_product_detail.dart';
+import 'modules/qr_code/layout_qr_code.dart';
 import 'modules/redeemcode/layout_redeemcode.dart';
 import 'modules/register/layout_register.dart';
 
@@ -27,7 +31,8 @@ Future<void> main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/prodcut-detail',
+  // initialLocation: '/product-detail',
+  initialLocation: '/camera',
   routes: <RouteBase>[
     LayoutCart.goRoute(),
     LayoutCartDetail.goRoute(),
@@ -37,6 +42,10 @@ final GoRouter _router = GoRouter(
     LayoutRedeemCode.goRoute(),
     LayoutRegister.goRoute(),
     LayoutForgotPassword.goRoute(),
+    LayoutPdf.goRoute(),
+    LayoutGoogleMap.goRoute(),
+    LayoutCamera.goRoute(),
+    LayoutQrCode.goRoute(),
   ],
 );
 

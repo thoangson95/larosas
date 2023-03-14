@@ -5,14 +5,14 @@ import 'package:larosas/modules/product_detail/screen/prodcut_detail_screen.dart
 class LayoutProductDetail extends StatelessWidget {
   const LayoutProductDetail({Key? key}) : super(key: key);
 
-  static String pathRoute = '/prodcut-detail';
+  static String pathRoute = '/product-detail';
   static GoRoute goRoute() => GoRoute(
         path: pathRoute,
-        builder: (context, state) => const ProdcutDetailScreen(),
+        builder: (context, state) => ProdcutDetailScreen(),
       );
 
   @override
   Widget build(BuildContext context) {
-    return const ProdcutDetailScreen();
+    return ProdcutDetailScreen();
   }
 }
