@@ -57,7 +57,9 @@ class UserInfoScreen extends ConsumerWidget {
                       (states) => Size.zero,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go('/camera');
+                  },
                   child: Row(
                     children: [
                       SizedBox(
