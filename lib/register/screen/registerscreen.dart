@@ -431,6 +431,39 @@ class RegisterScreen extends StatelessWidget {
                                 ),
                               ),
                             ],
+                          ),
+                          const Padding(padding: EdgeInsets.only(top: 10)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: TextButton.icon(
+                                  style: TextButton.styleFrom(
+                                      foregroundColor: maincolor,
+                                      backgroundColor: Colors.white,
+                                      side: BorderSide(
+                                        width: 1,
+                                        color: maincolor,
+                                      ),
+                                      alignment: Alignment.center),
+                                  onPressed: () {
+                                    signIn(ref).then(
+                                      (value) {
+                                        
+                                        if (ref.watch(isLoginWithGoogle) !=
+                                            null) {
+                                              context.go('/home');
+                                            }
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(Icons.facebook),
+                                  label: const Text(
+                                    "Đăng nhập bằng google",
+                                  ),
+                                ),
+                              ),
+                            ],
                           )
                         ],
                       );

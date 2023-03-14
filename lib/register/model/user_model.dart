@@ -1,3 +1,5 @@
+import 'package:google_sign_in/google_sign_in.dart';
+
 class UserModel {
   String? id;
   String? idSocial;
@@ -16,23 +18,25 @@ class UserModel {
   String? birthday;
   String? numb;
 
-  UserModel(Future<UserModel> Function(dynamic ref) param0, 
-      {this.id,
-      this.idSocial,
-      this.username,
-      this.password,
-      this.confirmCode,
-      this.avatar,
-      this.fullname,
-      this.phone,
-      this.email,
-      this.address,
-      this.gender,
-      this.loginSession,
-      this.lastlogin,
-      this.status,
-      this.birthday,
-      this.numb});
+  UserModel(
+    Future<UserModel> Function(dynamic ref) param0, {
+    this.id,
+    this.idSocial,
+    this.username,
+    this.password,
+    this.confirmCode,
+    this.avatar,
+    this.fullname,
+    this.phone,
+    this.email,
+    this.address,
+    this.gender,
+    this.loginSession,
+    this.lastlogin,
+    this.status,
+    this.birthday,
+    this.numb,
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -73,4 +77,9 @@ class UserModel {
     data['numb'] = numb;
     return data;
   }
+}
+
+class GoogleSignInApi {
+  static final _googleSignIn = GoogleSignIn();
+  static Future<GoogleSignInAccount?> login() => _googleSignIn.signIn();
 }

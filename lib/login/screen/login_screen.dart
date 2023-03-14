@@ -375,7 +375,7 @@ class LoginScreen extends StatelessWidget {
                                                     ),
                                                   );
                                                 },
-                                              );
+                                              ); 
                                             }
                                           },
                                           error: (error, stackTrace) {},

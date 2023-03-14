@@ -47,6 +47,10 @@ Future userinfo() async {
   return userData;
 }
 
+Future signIn(WidgetRef ref) async{
+  ref.read(isLoginWithGoogle.notifier).state = await GoogleSignInApi.login();
+}
+
 bool checkIsValidEmail(List<UserModel> users, String val, WidgetRef ref) {
   bool boolean = true;
   for (int i = 0; i < users.length; i++) {

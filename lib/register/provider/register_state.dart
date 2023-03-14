@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 final showPasswordState = StateProvider((ref) => false);
 
@@ -23,3 +24,5 @@ final isEmptyEmail = StateProvider((ref) => false);
 final isEmptyPassword = StateProvider((ref) => false);
 
 final isLoading = StateProvider((ref) => false);
+
+final isLoginWithGoogle = StateProvider<GoogleSignInAccount?>((ref) => null);
