@@ -334,8 +334,7 @@ class LoginScreen extends StatelessWidget {
                                       if (isLogin == false) {
                                         listUser.when(
                                           data: (data) {
-                                            ref
-                                                    .read(loginState.notifier)
+                                            ref.read(loginState.notifier)
                                                     .state =
                                                 checkLogin(data, _email.text,
                                                     _password.text, ref);
