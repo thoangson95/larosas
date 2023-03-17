@@ -72,9 +72,9 @@ class UserInfoScreen extends ConsumerWidget {
                                 ? NetworkImage(jsonDecode(
                                         ref.watch(facebookuserState))['picture']
                                     ['data']['url'])
-                                : (ref.watch(usersState)!.id!.isNotEmpty
+                                : (ref.watch(usersState).id!.isNotEmpty
                                     ? NetworkImage(
-                                        'http://demo39.ninavietnam.com.vn/test1/thumbs/100x100x1/upload/user/${ref.watch(usersState)!.avatar}')
+                                        'http://demo39.ninavietnam.com.vn/test1/thumbs/100x100x1/upload/user/${ref.watch(usersState).avatar}')
                                     : const NetworkImage(
                                         'http://demo39.ninavietnam.com.vn/test1/thumbs/390x334x1/upload/photo/loginpic-7250.png'))),
                       ),
@@ -89,7 +89,7 @@ class UserInfoScreen extends ConsumerWidget {
                               ref.watch(facebookuserState).isNotEmpty
                                   ? jsonDecode(
                                       ref.watch(facebookuserState))['name']
-                                  : ref.watch(usersState)!.username ?? "",
+                                  : ref.watch(usersState).username ?? "",
                               style: const TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             ),

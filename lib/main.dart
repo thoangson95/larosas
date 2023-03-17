@@ -49,6 +49,7 @@ final GoRouter _router = GoRouter(
     LayoutCartDetail.goRoute(),
     LayoutCartSuccess.goRoute(),
     LayoutCamera.goRoute(),
+    LayoutViewAvatar.goRoute(),
   ],
 );
 

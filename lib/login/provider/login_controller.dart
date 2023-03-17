@@ -54,3 +54,28 @@ bool checkLogin(
   }
   return isTrue;
 }
+
+
+// Future<UserModel> checkAccountAvailable(String email, String password) async {
+//   final dio = Dio();
+//   FormData formData = FormData.fromMap({'email': email, 'password': password});
+//   final response = await dio.post("http://demo39.ninavietnam.com.vn/test1/user",
+//       data: formData);
+//   if (response.statusCode == 200) {
+//     return UserModel.fromJson(jsonDecode(response.data));
+//   } else {
+//     throw Exception("Lỗi kết nối tới server");
+//   }
+// }
+
+// Future<bool> checkLogin(String email, String password, WidgetRef ref) async {
+//   if (email.isNotEmpty && password.isNotEmpty) {
+//     await checkAccountAvailable(email, password).then((value) {
+//       if (value.id != '') {
+//         ref.read(usersState.notifier).state = value;
+//         return true;
+//       }
+//     });
+//   }
+//   return false;
+// }

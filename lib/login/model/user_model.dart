@@ -16,7 +16,7 @@ class UserModel {
   String? birthday;
   String? numb;
 
-  UserModel(Future<UserModel> Function(dynamic ref) param0, 
+  UserModel(
       {this.id,
       this.idSocial,
       this.username,

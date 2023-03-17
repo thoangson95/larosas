@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:thoitrang/userinfo/screen/userinfo_screen.dart';
 
 import 'screen/edituser_screen.dart';
+import 'screen/viewavatar_screen.dart';
 
 class LayoutUserInfo extends StatelessWidget {
   const LayoutUserInfo({super.key});
@@ -26,11 +27,25 @@ class LayoutCamera extends StatelessWidget {
   static String pathRoute = '/camera';
   static GoRoute goRoute() => GoRoute(
         path: pathRoute,
-        builder: (context, state) => const Camera(),
+        builder: (context, state) => Camera(),
       );
 
   @override
   Widget build(BuildContext context) {
-    return const Camera();
+    return Camera();
+  }
+}
+class LayoutViewAvatar extends StatelessWidget {
+  const LayoutViewAvatar({super.key});
+
+  static String pathRoute = '/viewavatar';
+  static GoRoute goRoute() => GoRoute(
+        path: pathRoute,
+        builder: (context, state) => const ViewAvatar(),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return const ViewAvatar();
   }
 }
