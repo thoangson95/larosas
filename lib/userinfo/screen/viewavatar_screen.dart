@@ -31,7 +31,7 @@ class ViewAvatar extends ConsumerWidget {
           highlightColor: Colors.transparent,
           onPressed: () {
             ref.read(avatarProvider.notifier).state = XFile('');
-            context.go('/camera');
+            context.go('/edituser');
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -106,7 +106,7 @@ class ViewAvatar extends ConsumerWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Thay đổi thất bại')));
-                      context.go('/camera');
+                      context.go('/edituser');
                     }
                   });
                 },

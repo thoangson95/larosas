@@ -28,7 +28,7 @@ class Camera extends ConsumerWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onPressed: () {
-            context.go('/userinfo');
+            context.go('/home');
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -36,7 +36,7 @@ class Camera extends ConsumerWidget {
           ),
         ),
         title: const Text(
-          "Chỉnh sửa tài khoản",
+          "Thông tin tài khoản",
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
         ),
@@ -49,6 +49,9 @@ class Camera extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 InkWell(
+                  highlightColor: Colors.transparent,
+                  overlayColor: MaterialStateColor.resolveWith(
+                      (states) => Colors.transparent),
                   onTap: () {
                     context.go('/viewavatar');
                   },
@@ -91,11 +94,11 @@ class Camera extends ConsumerWidget {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
             Padding(
@@ -130,12 +133,47 @@ class Camera extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Ngày sinh'),
-                  Text(DateFormat('"d/m/Y h:i A"')
-                      .format(ref.watch(usersState).birthday.toString())
-                      .toString())
+                  Text(
+                    DateFormat('dd/MM/yyyy').format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                        int.parse(ref.watch(usersState).birthday.toString()) *
+                            1000,
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Số điện thoại'),
+                  Text(ref.watch(usersState).phone.toString()),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Email'),
+                  Text(ref.watch(usersState).email.toString()),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Địa chỉ'),
+                  Text(ref.watch(usersState).address.toString()),
+                ],
+              ),
+            ),
           ],
         ),
       ),

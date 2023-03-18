@@ -24,7 +24,7 @@ class LayoutUserInfo extends StatelessWidget {
 class LayoutCamera extends StatelessWidget {
   const LayoutCamera({super.key});
 
-  static String pathRoute = '/camera';
+  static String pathRoute = '/edituser';
   static GoRoute goRoute() => GoRoute(
         path: pathRoute,
         builder: (context, state) => Camera(),

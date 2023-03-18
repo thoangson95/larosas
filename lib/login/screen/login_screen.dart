@@ -313,7 +313,6 @@ class LoginScreen extends StatelessWidget {
                             child: Consumer(
                               builder: (context, ref, child) {
                                 final isload = ref.watch(loading);
-                                final listUser = ref.watch(fListUserProvider);
                                 final isLogin = ref.watch(loginState);
                                 return TextButton(
                                   style: TextButton.styleFrom(
@@ -326,18 +325,20 @@ class LoginScreen extends StatelessWidget {
                                           true;
                                     }
                                     if (_password.text == '') {
-                                      ref.read(isLEmptyPassword.notifier).state =
-                                          true;
+                                      ref
+                                          .read(isLEmptyPassword.notifier)
+                                          .state = true;
                                     }
                                     if (_email.text.isNotEmpty &&
                                         _password.text.isNotEmpty) {
                                       if (isLogin == false) {
-                                        listUser.when(
-                                          data: (data) {
-                                            ref.read(loginState.notifier)
-                                                    .state =
-                                                checkLogin(data, _email.text,
-                                                    _password.text, ref);
+                                        loginUser(_email.text, _password.text,
+                                                ref)
+                                            .then(
+                                          (value) {
+                                            ref
+                                                .read(loginState.notifier)
+                                                .state = value;
                                             ref.read(loading.notifier).state =
                                                 true;
                                             if (ref.watch(loginState)) {
@@ -374,11 +375,9 @@ class LoginScreen extends StatelessWidget {
                                                     ),
                                                   );
                                                 },
-                                              ); 
+                                              );
                                             }
                                           },
-                                          error: (error, stackTrace) {},
-                                          loading: () {},
                                         );
                                       }
                                     }

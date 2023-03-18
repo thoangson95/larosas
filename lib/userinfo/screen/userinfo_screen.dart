@@ -58,7 +58,7 @@ class UserInfoScreen extends ConsumerWidget {
                     ),
                   ),
                   onPressed: () {
-                    context.go('/camera');
+                    context.go('/edituser');
                   },
                   child: Row(
                     children: [
